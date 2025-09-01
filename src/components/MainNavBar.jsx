@@ -6,7 +6,7 @@ DocumentTextIcon
 } from "../assets/icons/icons";
 import { NavLink } from "react-router-dom";
 
-export const NavBar = () => {
+export const MainNavBar = () => {
   return (
     <nav className="fixed bottom-0 w-full">
       <ul className="flex [&>li]:block justify-between px-2">
