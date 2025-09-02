@@ -6,6 +6,7 @@ import { HomePage } from "./components/HomePage";
 import Map from "./components/Map";
 import { Cities } from "./components/Cities";
 import { Countries } from "./components/Countries";
+import { CityDetails } from "./components/CityDetails";
 
 function App() {
   return (
@@ -20,11 +21,12 @@ function App() {
         <Route path="map" element={<Map />} />
         <Route path="discover" element={<Discover />} />
         <Route path="journal" element={<Journal />} />
-        <Route
-          path="*"
-          element={<p className="text-2xl text-center">page not found :(</p>}
-        />
       </Route>
+      <Route path="cities/:id" element={<CityDetails />} />
+      <Route
+        path="*"
+        element={<p className="text-2xl text-center">page not found :(</p>}
+      />
     </Routes>
   );
 }
