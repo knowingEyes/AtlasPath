@@ -3,7 +3,7 @@ import { SectionNavBar } from "./SectionNavBar";
 
 export const HomePage = () => {
   return (
-    <section>
+    <section className="p-5">
       <SectionNavBar views={["Cities", "Countries"]} />
       <Outlet />
     </section>
