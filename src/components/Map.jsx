@@ -1,4 +1,3 @@
-import { useEffect } from "react";
 import {
   MapContainer,
   TileLayer,
@@ -7,23 +6,24 @@ import {
   useMapEvent,
 } from "react-leaflet";
 import { useNavigate } from "react-router-dom";
-const ApiToken = import.meta.env.VITE_LOCATIONIQ_TOKEN;
+import { useCities } from "../hooks/useCities";
+import { useEffect, useState } from "react";
+import { useQueryString } from "../hooks/useQueryString";
 const Map = () => {
-  useEffect(() => {
-    async function getCity() {
-      const res = await fetch(
-        `https://us1.locationiq.com/v1/reverse?key=${ApiToken}&lat=51.503770&lon=-0.12794558&format=json&`
-      );
-      const data = await res.json();
-      console.log(data);
-    }
-
-    getCity();
-  });
+  // const navigate = useNavigate();
+  
+  const [position, setPosition] = useState([51.505, -0.05])
+  const { getCity , city} = useCities();
+  const handleGetCity = (e) => {
+    setPosition([e.latlng.lat, e.latlng.lng])
+  };
+  useEffect(()=>{
+    getCity(position)
+  },[position])
   return (
     <div className="h-screen">
       <MapContainer
-        center={[51.505, -0.09]}
+        center={position}
         zoom={13}
         scrollWheelZoom={false}
         className="h-[90%]"
@@ -37,27 +37,18 @@ const Map = () => {
             A pretty CSS3 popup. <br /> Easily customizable.
           </Popup>
         </Marker>
-        <DetectClick />
+        <DetectClick handleGetCity={handleGetCity} />
       </MapContainer>
     </div>
   );
 };
 
-const DetectClick = () => {
+const DetectClick = ({handleGetCity}) => {
   const navigate = useNavigate();
   useMapEvent({
     click: (e) =>
-      navigate(`/cities/${12345}`, {
-        state: {
-          "city image": "",
-          note: "",
-          id: 0,
-          lat: e.latlng.lat,
-          lng: e.latlng.lat,
-          country: "",
-          city: "",
-        },
-      }),
+      //  handleGetCity(e)
+    navigate(`/cities/12?lat=${e.latlng.lat}&lon=${e.latlng.lng}`)
   });
 };
 

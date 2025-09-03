@@ -4,6 +4,7 @@ import { useNavigate } from "react-router-dom";
 import { Button } from "./Button";
 export const CityDetails = () => {
   const navigate = useNavigate();
+
   return (
     <section className="h-screen text-white relative">
       <div
