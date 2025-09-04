@@ -47,7 +47,11 @@ const DetectClick = ({ handleGetCity }) => {
   useMapEvent({
     click: (e) =>
       //  handleGetCity(e)
-      navigate(`/cities/12?lat=${e.latlng.lat}&lon=${e.latlng.lng}`),
+      navigate(
+        `/cities/${new Date().getTime()}?lat=${e.latlng.lat}&lon=${
+          e.latlng.lng
+        }`
+      ),
   });
 };
 

@@ -1,20 +1,19 @@
 import { useState } from "react";
 import { Button } from "./Button";
-import { useLocation } from "react-router-dom";
 import { useCities } from "../hooks/useCities";
 import { useQueryString } from "../hooks/useQueryString";
+import { useParams } from "react-router-dom";
 
 export const Form = ({ setIsOpen, cityInfo }) => {
+  const { id } = useParams();
   const [lat, lon] = useQueryString();
   const [note, setNote] = useState("");
   const [dateVisited, setdateVisited] = useState(new Date());
   const { handleNewCity, visitedCities } = useCities();
-  const {
-    address: { city, country, country_code },
-  } = cityInfo;
+  const { city, country, country_code } = cityInfo;
   const newCity = {
     city,
-    id: new Date().getTime(),
+    id,
     lon,
     lat,
     country,
@@ -23,10 +22,15 @@ export const Form = ({ setIsOpen, cityInfo }) => {
     note,
     dateVisited,
   };
-  // console.log(visitedCities)
   return (
     <>
-      <form>
+      <form
+        onSubmit={(e) => {
+          e.preventDefault();
+          setIsOpen((p) => !p);
+          handleNewCity(newCity);
+        }}
+      >
         <input
           type="text"
           className="bg-gray-100 ring-1 block w-full mb-2 rounded-sm p-1"
@@ -42,21 +46,12 @@ export const Form = ({ setIsOpen, cityInfo }) => {
         <textarea
           id="note"
           rows="4"
-          className="block p-2.5 w-full text-sm text-gray-900 bg-gray-100 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500  dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+          className="block p-2.5 w-full text-sm text-gray-900 bg-gray-100 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500  dark:border-gray-600 dark:placeholder-gray-400 dark:focus:ring-blue-500 dark:focus:border-blue-500"
           placeholder="Leave a note..."
           value={note}
           onChange={(e) => setNote(e.target.value)}
         ></textarea>
-        <Button
-          styles="px-5 rounded-md py-1 mt-2"
-          onClick={(e) => {
-            setIsOpen((p) => !p);
-            e.preventDefault();
-            handleNewCity(newCity);
-          }}
-        >
-          Add
-        </Button>
+        <Button styles="px-5 rounded-md py-1 mt-2">Add</Button>
       </form>
     </>
   );

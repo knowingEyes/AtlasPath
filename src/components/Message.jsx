@@ -1,5 +1,5 @@
 export const Message = ({message}) => {
   return (
-    <div>{message}</div>
+    <p className="text-center">{message}</p>
   )
 }
