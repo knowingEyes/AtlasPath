@@ -8,7 +8,6 @@ import { Cities } from "./components/Cities";
 import { Countries } from "./components/Countries";
 import { CityDetails } from "./components/CityDetails";
 import { CitiesProvider } from "./contexts/CitiesContext";
-import { Form } from "./components/Form";
 
 function App() {
   return (
@@ -26,7 +25,6 @@ function App() {
           <Route path="journal" element={<Journal />} />
         </Route>
         <Route path="cities/:id" element={<CityDetails />} />
-        <Route path="form" element={<Form />} />
         <Route
           path="*"
           element={<p className="text-2xl text-center">page not found :(</p>}

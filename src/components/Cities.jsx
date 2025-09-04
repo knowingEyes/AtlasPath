@@ -8,8 +8,8 @@ export const Cities = () => {
   return (
     <section className="  mt-5">
       <ul className="max-w-[500px] mx-auto">
-        {visitedCities.map(({ cityName, lat, lon }) => (
-          <CitiesItems cityName={cityName} lat={lat} lon={lon} />
+        {visitedCities.map(({ city, lat, lon , id}) => (
+          <CitiesItems cityName={city} lat={lat} lon={lon} key={id} />
         ))}
       </ul>
     </section>
