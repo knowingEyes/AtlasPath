@@ -1,8 +1,8 @@
-export const Button = ({ children, onClick }) => {
+export const Button = ({ children, onClick, styles }) => {
   return (
     <button
       onClick={onClick}
-      className="bg-[#0373f3] block w-full p-2 cursor-pointer rounded-full text-center text-white font-semibold text-sm"
+      className={`bg-[#0373f3] block  p-2 cursor-pointer  text-center text-white font-semibold text-sm ${styles} `}
     >
       {children}
     </button>

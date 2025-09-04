@@ -9,24 +9,23 @@ import { useNavigate } from "react-router-dom";
 import { useCities } from "../hooks/useCities";
 import { useEffect, useState } from "react";
 import { useQueryString } from "../hooks/useQueryString";
+
 const Map = () => {
   // const navigate = useNavigate();
-  
-  const [position, setPosition] = useState([51.505, -0.05])
-  const { getCity , city} = useCities();
-  const handleGetCity = (e) => {
-    setPosition([e.latlng.lat, e.latlng.lng])
-  };
-  useEffect(()=>{
-    getCity(position)
-  },[position])
+  const [lat, lon] = useQueryString();
+  const [position, setPosition] = useState([51.505, -0.05]);
+  const { getCity, city } = useCities();
+  useEffect(() => {
+    if (!lat && !lon) return;
+    setPosition([lat, lon]);
+  }, [lat, lon]);
   return (
     <div className="h-screen">
       <MapContainer
         center={position}
         zoom={13}
         scrollWheelZoom={false}
-        className="h-[90%]"
+        className="h-[100%]"
       >
         <TileLayer
           attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
@@ -37,18 +36,18 @@ const Map = () => {
             A pretty CSS3 popup. <br /> Easily customizable.
           </Popup>
         </Marker>
-        <DetectClick handleGetCity={handleGetCity} />
+        <DetectClick />
       </MapContainer>
     </div>
   );
 };
 
-const DetectClick = ({handleGetCity}) => {
+const DetectClick = ({ handleGetCity }) => {
   const navigate = useNavigate();
   useMapEvent({
     click: (e) =>
       //  handleGetCity(e)
-    navigate(`/cities/12?lat=${e.latlng.lat}&lon=${e.latlng.lng}`)
+      navigate(`/cities/12?lat=${e.latlng.lat}&lon=${e.latlng.lng}`),
   });
 };
 
