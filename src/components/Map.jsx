@@ -42,11 +42,10 @@ const Map = () => {
   );
 };
 
-const DetectClick = ({ handleGetCity }) => {
+const DetectClick = () => {
   const navigate = useNavigate();
   useMapEvent({
     click: (e) =>
-      //  handleGetCity(e)
       navigate(
         `/cities/${new Date().getTime()}?lat=${e.latlng.lat}&lon=${
           e.latlng.lng

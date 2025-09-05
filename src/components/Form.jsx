@@ -4,23 +4,24 @@ import { useCities } from "../hooks/useCities";
 import { useQueryString } from "../hooks/useQueryString";
 import { useParams } from "react-router-dom";
 
-export const Form = ({ setIsOpen, cityInfo }) => {
+export const Form = ({ setIsOpen, ...options }) => {
   const { id } = useParams();
   const [lat, lon] = useQueryString();
   const [note, setNote] = useState("");
   const [dateVisited, setdateVisited] = useState(new Date());
   const { handleNewCity, visitedCities } = useCities();
-  const { city, country, country_code } = cityInfo;
+  const { city, country, country_code, emoji } = options || {};
+  // console.log(options);
   const newCity = {
     city,
+    country_code,
+    country,
     id,
     lon,
     lat,
-    country,
-    country_code,
-    city_image: "",
     note,
     dateVisited,
+    emoji,
   };
   return (
     <>

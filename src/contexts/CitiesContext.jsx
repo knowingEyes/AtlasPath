@@ -11,7 +11,7 @@ function reducer(state, action) {
     case "ADD_CITY":
       return {
         ...state,
-        visitedCities: action.payload
+        visitedCities: action.payload,
       };
     default:
       break;
@@ -22,16 +22,16 @@ const CitiesProvider = ({ children }) => {
   const [state, dispatch] = useReducer(reducer, initialValue);
   const [lat, lon] = useQueryString();
   const { city, visitedCities } = state;
-  useEffect(()=> {
-      dispatch({
+  useEffect(() => {
+    const savedCities = localStorage.getItem("visitedCities");
+    dispatch({
       type: "ADD_CITY",
-      payload: JSON.parse(localStorage.getItem("visitedCities")) ?? [],
+      payload: JSON.parse(savedCities),
     });
-  },[])
+  }, []);
   useEffect(() => {
     if (!visitedCities) return;
     localStorage.setItem("visitedCities", JSON.stringify(visitedCities));
-
   }, [visitedCities]);
   async function getCity() {
     if (!lon && !lat) return;
@@ -41,7 +41,6 @@ const CitiesProvider = ({ children }) => {
     const data = await res.json();
     dispatch({ type: "setcity", payload: data });
   }
-  // console.log(visitedCities)
   const handleNewCity = (newCity) => {
     dispatch({ type: "ADD_CITY", payload: [...visitedCities, newCity] });
   };

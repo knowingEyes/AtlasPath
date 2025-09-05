@@ -11,21 +11,38 @@ import { Message } from "./Message";
 const LOCATIONIQ_BASE_URL = "https://us1.locationiq.com/v1";
 const ApiToken = import.meta.env.VITE_LOCATIONIQ_TOKEN;
 const WIKIPEDIA_BASE_URL = "https://en.wikipedia.org/api/rest_v1";
+const getCountrFlag = (countryCode) =>
+  `https://flagcdn.com/w40/${countryCode}.png`;
+
+console.log(getCountrFlag());
 export const CityDetails = () => {
   const navigate = useNavigate();
   const { id } = useParams();
   const [lat, lon] = useQueryString();
   const [cityInfo, setCityInfo] = useState("");
   const [aboutCity, setAboutCity] = useState("");
-  const { city, country: countryName } = cityInfo;
+  const {
+    country: countryName,
+    country_code,
+    state,
+    city_district,
+    county,
+    region,
+    city = state ?? city_district ?? county ?? region,
+  } = cityInfo || {};
   const [isOpen, setIsOpen] = useState(false);
   const { visitedCities } = useCities();
+  console.log(cityInfo);
+  //use global state as a fallback details
   const {
+    emoji,
     note,
     city: cityName,
     country,
+    country_code: visitedCountryCode,
   } = visitedCities.find((city) => city.id === id) ?? {};
   const isVisited = visitedCities.map(({ id }) => id).includes(id);
+  const countryFlag = getCountrFlag(country_code || visitedCountryCode);
   useEffect(() => {
     async function getCity() {
       if (cityName) return;
@@ -69,9 +86,15 @@ export const CityDetails = () => {
           <>
             <header className="relative">
               {" "}
-              <h1 className="text-2xl  font-bold">{city ?? cityName}</h1>
+              <h1 className="text-2xl  font-bold max-w-[300px]">
+                {city ?? cityName}
+              </h1>
               <p className="text-sm">{countryName ?? country}</p>
-              <span className="absolute top-1 right-0 text-xl">🖼</span>
+              <img
+                src={countryFlag ?? emoji}
+                alt="Country flag"
+                className="absolute top-2 right-0 rounded-sm"
+              />
             </header>
             <div className="mt-5 mb-3">
               <h1 className="font-bold mb-1">ABOUT</h1>
@@ -80,8 +103,8 @@ export const CityDetails = () => {
             <div>
               <h2 className="font-bold mb-4">HIGHTLIGHT</h2>
             </div>
-            <div>
-              <h2 className="font-bold">NOTES</h2>
+            <div className="mb-4">
+              <h2 className="font-bold ">NOTES</h2>
               <div className="text-sm bg-gray-100 p-3 rounded-lg mt-1 h-[100px]">
                 {isVisited && <p>{note}</p>}
                 {!isVisited && (
@@ -91,22 +114,32 @@ export const CityDetails = () => {
             </div>
 
             {!isVisited && (
-              
               <Button
-                styles=" rounded-full block w-[100%] mx-auto mt-8"
+                styles="rounded-full block w-[100%] mx-auto"
                 onClick={() => setIsOpen((p) => !p)}
               >
                 Save visit
               </Button>
-            
             )}
             {isVisited && (
               <Button styles=" rounded-full w-full">Visited</Button>
             )}
           </>
         )}
-        {isOpen && <Form setIsOpen={setIsOpen} cityInfo={cityInfo} />}
+        {isOpen && (
+          <Form
+            setIsOpen={setIsOpen}
+            city={city}
+            state={state}
+            country_code={country_code}
+            emoji={countryFlag}
+            country={countryName}
+          />
+        )}
       </BottomSheet>
     </section>
   );
 };
+//  country,
+//   country_code,
+//   emoji,
