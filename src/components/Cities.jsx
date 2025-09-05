@@ -1,9 +1,14 @@
+import { useEffect } from "react";
 import { useCities } from "../hooks/useCities";
 import { CitiesItems } from "./CitiesItems";
 import { Message } from "./Message";
 
 export const Cities = () => {
   const { visitedCities } = useCities();
+   useEffect(()=> {
+   
+   },[])
+
   if (!visitedCities.length) return <Message message="No Visited Area yet" />;
   return (
     <section className="  mt-5">
@@ -16,10 +21,36 @@ export const Cities = () => {
             key={id}
             note={note}
             id={id}
-            country={country}
           />
         ))}
       </ul>
     </section>
   );
 };
+//  const b ={  city
+// : 
+// "London"
+// city_image
+// : 
+// ""
+// country
+// : 
+// "United Kingdom"
+// country_code
+// : 
+// "gb"
+// dateVisited
+// : 
+// Thu Sep 04 2025 22:16:41 GMT+0100 (West Africa Standard Time) {}
+// id
+// : 
+// "1757020597986"
+// lat
+// :  
+// "51.51632755391457"
+// lon
+// : 
+// "-0.06334304809570314"
+// note
+// }
+// "love this city its so cool"

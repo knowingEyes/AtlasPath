@@ -74,15 +74,15 @@ export const CityDetails = () => {
               <span className="absolute top-1 right-0 text-xl">🖼</span>
             </header>
             <div className="mt-5 mb-3">
-              <h1 className="font-bold">ABOUT</h1>
+              <h1 className="font-bold mb-1">ABOUT</h1>
               <p className="text-sm ">{aboutCity}</p>
             </div>
             <div>
               <h2 className="font-bold mb-4">HIGHTLIGHT</h2>
             </div>
             <div>
-              <h2 className="font-bold">Notes</h2>
-              <div className="text-sm bg-gray-100 p-3 rounded-lg mt-1">
+              <h2 className="font-bold">NOTES</h2>
+              <div className="text-sm bg-gray-100 p-3 rounded-lg mt-1 h-[100px]">
                 {isVisited && <p>{note}</p>}
                 {!isVisited && (
                   <Message message="Save visit to add and view note." />
@@ -91,12 +91,14 @@ export const CityDetails = () => {
             </div>
 
             {!isVisited && (
+              
               <Button
-                styles=" rounded-full w-full"
+                styles=" rounded-full block w-[100%] mx-auto mt-8"
                 onClick={() => setIsOpen((p) => !p)}
               >
                 Save visit
               </Button>
+            
             )}
             {isVisited && (
               <Button styles=" rounded-full w-full">Visited</Button>

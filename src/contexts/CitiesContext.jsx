@@ -1,4 +1,4 @@
-import { createContext, useReducer } from "react";
+import { createContext, useEffect, useReducer } from "react";
 import { useQueryString } from "../hooks/useQueryString";
 const BASE_URL = "https://us1.locationiq.com/v1";
 const initialValue = { city: "", visitedCities: [] };
@@ -11,7 +11,7 @@ function reducer(state, action) {
     case "ADD_CITY":
       return {
         ...state,
-        visitedCities: [...state.visitedCities, action.payload],
+        visitedCities: action.payload
       };
     default:
       break;
@@ -22,6 +22,17 @@ const CitiesProvider = ({ children }) => {
   const [state, dispatch] = useReducer(reducer, initialValue);
   const [lat, lon] = useQueryString();
   const { city, visitedCities } = state;
+  useEffect(()=> {
+      dispatch({
+      type: "ADD_CITY",
+      payload: JSON.parse(localStorage.getItem("visitedCities")) ?? [],
+    });
+  },[])
+  useEffect(() => {
+    if (!visitedCities) return;
+    localStorage.setItem("visitedCities", JSON.stringify(visitedCities));
+
+  }, [visitedCities]);
   async function getCity() {
     if (!lon && !lat) return;
     const res = await fetch(
@@ -30,13 +41,15 @@ const CitiesProvider = ({ children }) => {
     const data = await res.json();
     dispatch({ type: "setcity", payload: data });
   }
-
+  // console.log(visitedCities)
   const handleNewCity = (newCity) => {
-    dispatch({ type: "ADD_CITY", payload: newCity });
+    dispatch({ type: "ADD_CITY", payload: [...visitedCities, newCity] });
   };
 
   return (
-    <CitiesContext.Provider value={{ getCity, city, handleNewCity, visitedCities }}>
+    <CitiesContext.Provider
+      value={{ getCity, city, handleNewCity, visitedCities }}
+    >
       {children}
     </CitiesContext.Provider>
   );
