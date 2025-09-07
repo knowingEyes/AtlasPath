@@ -4,26 +4,26 @@ import {
   Marker,
   Popup,
   useMapEvent,
+  useMap,
 } from "react-leaflet";
 import { useNavigate } from "react-router-dom";
-import { useCities } from "../hooks/useCities";
 import { useEffect, useState } from "react";
 import { useQueryString } from "../hooks/useQueryString";
 
 const Map = () => {
   // const navigate = useNavigate();
   const [lat, lon] = useQueryString();
-  const [position, setPosition] = useState([51.505, -0.05]);
-  const { getCity, city } = useCities();
+  const [position, setPosition] = useState([51.565, -0.05]);
+  // const { getCity, city } = useCities();
   useEffect(() => {
     if (!lat && !lon) return;
-    setPosition([lat, lon]);
+    setPosition([lat,lon]);
   }, [lat, lon]);
   return (
     <div className="h-screen">
       <MapContainer
         center={position}
-        zoom={13}
+        zoom={10}
         scrollWheelZoom={false}
         className="h-[100%]"
       >
@@ -31,15 +31,22 @@ const Map = () => {
           attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
           url="https://{s}.tile.openstreetmap.fr/hot/{z}/{x}/{y}.png"
         />
-        <Marker position={[51.505, -0.09]}>
+        <Marker position={position}>
           <Popup>
             A pretty CSS3 popup. <br /> Easily customizable.
           </Popup>
         </Marker>
+        <SetView position={position} />
         <DetectClick />
       </MapContainer>
     </div>
-  );
+  ); 
+};
+
+const SetView = ({ position }) => {
+  const map = useMap();
+  map.setView(position);
+  return null;
 };
 
 const DetectClick = () => {

@@ -9,7 +9,7 @@ import { NavLink } from "react-router-dom";
 export const MainNavBar = () => {
   return (
     <nav className="fixed bottom-0 w-full text-white p-4 z-[9999]">
-      <ul className="flex [&>li]:block justify-between  rounded-[10px] bg-black px-6 py-4 ">
+      <ul className="flex [&>li]:block justify-between  rounded-[10px] bg-[#0e0e0e] px-6 py-4 ">
         <li>
           <NavLink to="homepage">
             <HomeIcon className="h-5 w-5" />

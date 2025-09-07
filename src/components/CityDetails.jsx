@@ -13,8 +13,6 @@ const ApiToken = import.meta.env.VITE_LOCATIONIQ_TOKEN;
 const WIKIPEDIA_BASE_URL = "https://en.wikipedia.org/api/rest_v1";
 const getCountrFlag = (countryCode) =>
   `https://flagcdn.com/w40/${countryCode}.png`;
-
-console.log(getCountrFlag());
 export const CityDetails = () => {
   const navigate = useNavigate();
   const { id } = useParams();
@@ -32,7 +30,6 @@ export const CityDetails = () => {
   } = cityInfo || {};
   const [isOpen, setIsOpen] = useState(false);
   const { visitedCities } = useCities();
-  console.log(cityInfo);
   //use global state as a fallback details
   const {
     emoji,
@@ -86,26 +83,26 @@ export const CityDetails = () => {
           <>
             <header className="relative">
               {" "}
-              <h1 className="text-2xl  font-bold max-w-[300px]">
+              <h1 className="text-2xl  font-bold max-w-[300px] ">
                 {city ?? cityName}
               </h1>
               <p className="text-sm">{countryName ?? country}</p>
               <img
                 src={countryFlag ?? emoji}
                 alt="Country flag"
-                className="absolute top-2 right-0 rounded-sm"
+                className="absolute top-2 right-0 rounded-sm w-[40px]"
               />
             </header>
             <div className="mt-5 mb-3">
-              <h1 className="font-bold mb-1">ABOUT</h1>
-              <p className="text-sm ">{aboutCity}</p>
+              <h2 className=" mb-1">ABOUT</h2>
+              <p className="text-sm text-gray-700">{aboutCity}</p>
             </div>
             <div>
-              <h2 className="font-bold mb-4">HIGHTLIGHT</h2>
+              <h2 className=" mb-4 font-inter">HIGHTLIGHT</h2>
             </div>
             <div className="mb-4">
-              <h2 className="font-bold ">NOTES</h2>
-              <div className="text-sm bg-gray-100 p-3 rounded-lg mt-1 h-[100px]">
+              <h2 className="">NOTES</h2>
+              <div className="text-sm bg-gray-100 p-3 rounded-lg mt-1 h-[100px] flex items-center justify-center text-center">
                 {isVisited && <p>{note}</p>}
                 {!isVisited && (
                   <Message message="Save visit to add and view note." />

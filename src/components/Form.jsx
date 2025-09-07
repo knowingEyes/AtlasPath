@@ -3,6 +3,7 @@ import { Button } from "./Button";
 import { useCities } from "../hooks/useCities";
 import { useQueryString } from "../hooks/useQueryString";
 import { useParams } from "react-router-dom";
+import DatePicker from "react-datepicker";
 
 export const Form = ({ setIsOpen, ...options }) => {
   const { id } = useParams();
@@ -11,7 +12,7 @@ export const Form = ({ setIsOpen, ...options }) => {
   const [dateVisited, setdateVisited] = useState(new Date());
   const { handleNewCity, visitedCities } = useCities();
   const { city, country, country_code, emoji } = options || {};
-  // console.log(options);
+  console.log(dateVisited);
   const newCity = {
     city,
     country_code,
@@ -23,6 +24,7 @@ export const Form = ({ setIsOpen, ...options }) => {
     dateVisited,
     emoji,
   };
+  console.log(emoji);
   return (
     <>
       <form
@@ -32,12 +34,29 @@ export const Form = ({ setIsOpen, ...options }) => {
           handleNewCity(newCity);
         }}
       >
-        <input
-          type="text"
-          className="bg-gray-100 ring-1 block w-full mb-2 rounded-sm p-1"
-          disabled
-          value={city}
-        />
+        <div className="relative">
+          <input
+            type="text"
+            className="bg-gray-100  block w-full mb-2 rounded-md p-3 font-semibold"
+            disabled
+            value={city}
+          />
+          <img
+            src={emoji}
+            alt="flag"
+            className="w-7 absolute top-[35%] right-2 object-cover"
+          />
+        </div>
+        <label htmlFor="added" className="block text-sm">
+          Visited
+        </label>{" "}
+        <DatePicker
+          className="bg-gray-100 block rounded-md p-3 my-2  font-semibold "
+          id="added"
+          selected={dateVisited}
+          onChange={(date) => setdateVisited(date)}
+          
+        />{" "}
         <label
           htmlFor="note"
           className="block mb-2 text-sm font-medium text-gray-900"
@@ -47,12 +66,13 @@ export const Form = ({ setIsOpen, ...options }) => {
         <textarea
           id="note"
           rows="4"
-          className="block p-2.5 w-full text-sm text-gray-900 bg-gray-100 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500  dark:border-gray-600 dark:placeholder-gray-400 dark:focus:ring-blue-500 dark:focus:border-blue-500"
+          className="block p-2.5 w-full text-[16px] text-gray-900 bg-gray-100 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500  dark:border-gray-600 dark:placeholder-gray-400 dark:focus:ring-blue-500 dark:focus:border-blue-500 "
           placeholder="Leave a note..."
           value={note}
           onChange={(e) => setNote(e.target.value)}
+          required
         ></textarea>
-        <Button styles="px-5 rounded-md py-1 mt-2">Add</Button>
+        <Button styles="px-5 rounded-md py-1 mt-4">Add</Button>
       </form>
     </>
   );
