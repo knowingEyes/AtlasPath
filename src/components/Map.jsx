@@ -9,38 +9,45 @@ import {
 import { useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { useQueryString } from "../hooks/useQueryString";
+import { useCities } from "../hooks/useCities";
 
 const Map = () => {
   // const navigate = useNavigate();
   const [lat, lon] = useQueryString();
   const [position, setPosition] = useState([51.565, -0.05]);
-  // const { getCity, city } = useCities();
+  const { visitedCities } = useCities();
+  console.log(visitedCities.map(({ lat, lon }) => [lat, lon]));
   useEffect(() => {
     if (!lat && !lon) return;
-    setPosition([lat,lon]);
+    setPosition([lat, lon]);
   }, [lat, lon]);
   return (
     <div className="h-screen">
       <MapContainer
         center={position}
-        zoom={10}
+        zoom={6}
         scrollWheelZoom={false}
-        className="h-[100%]"
+        className="h-[100vh]"
       >
         <TileLayer
           attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
-          url="https://{s}.tile.openstreetmap.fr/hot/{z}/{x}/{y}.png"
+          url="https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}.png"
         />
-        <Marker position={position}>
-          <Popup>
-            A pretty CSS3 popup. <br /> Easily customizable.
-          </Popup>
-        </Marker>
+        {visitedCities.map(({ lat, lon, city, emoji }) => (
+          <Marker position={[lat, lon]}>
+            <Popup>
+              <div className="text-center flex flex-col items-center justify-center">
+                <img src={emoji} alt="" className="w-5 mb-1" />
+                <span>{city}</span>
+              </div>
+            </Popup>
+          </Marker>
+        ))}
         <SetView position={position} />
         <DetectClick />
       </MapContainer>
     </div>
-  ); 
+  );
 };
 
 const SetView = ({ position }) => {
