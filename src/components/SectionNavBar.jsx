@@ -4,9 +4,9 @@ export const SectionNavBar = ({ views = [] }) => {
   return (
     <nav>
       <ul
-        className="flex bg-gray-100 w-max  [&_.active]:bg-[#0373f3] font-semibold
-       rounded-xl [&_a]:rounded-xl  [&_.active]:text-white [&_a]:text-sm mx-auto [&_a]:block
-       [&_a]:text-center [&_a]:w-20 [&_a]:px-2 [&_a]:transition-all [&_a]:duration-350 [&_a]:ease-in-out [&>li]:p-1"
+        className="flex bg-gray-100 w-max  [&_.active]:bg-[#333] font-semibold
+       rounded-md [&_a]:rounded-md  [&_.active]:text-white [&_a]:text-sm mx-auto [&_a]:block
+       text-center [&_a]:w-25 [&_a]:bg-gray-200  [&_a]:py-[3px] [&_a]:transition-all [&_a]:duration-300 [&_a]:ease-in-out [&>li]:p-1"
       >
         <li>
           <NavLink to={views[0]}>{views[0]}</NavLink>

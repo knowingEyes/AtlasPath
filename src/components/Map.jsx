@@ -12,11 +12,9 @@ import { useQueryString } from "../hooks/useQueryString";
 import { useCities } from "../hooks/useCities";
 
 const Map = () => {
-  // const navigate = useNavigate();
   const [lat, lon] = useQueryString();
   const [position, setPosition] = useState([51.565, -0.05]);
   const { visitedCities } = useCities();
-  console.log(visitedCities.map(({ lat, lon }) => [lat, lon]));
   useEffect(() => {
     if (!lat && !lon) return;
     setPosition([lat, lon]);
@@ -52,7 +50,7 @@ const Map = () => {
 
 const SetView = ({ position }) => {
   const map = useMap();
-  map.setView(position);
+  map.flyTo(position, 13);
   return null;
 };
 

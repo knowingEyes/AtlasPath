@@ -12,7 +12,6 @@ export const Form = ({ setIsOpen, ...options }) => {
   const [dateVisited, setdateVisited] = useState(new Date());
   const { handleNewCity, visitedCities } = useCities();
   const { city, country, country_code, emoji } = options || {};
-  console.log(dateVisited);
   const newCity = {
     city,
     country_code,
