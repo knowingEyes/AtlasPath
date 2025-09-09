@@ -2,16 +2,15 @@ import { useState } from "react";
 import { Button } from "./Button";
 import { useCities } from "../hooks/useCities";
 import { useQueryString } from "../hooks/useQueryString";
-import { useParams } from "react-router-dom";
 import DatePicker from "react-datepicker";
 
 export const Form = ({ setIsOpen, ...options }) => {
-  const { id } = useParams();
   const [lat, lon] = useQueryString();
   const [note, setNote] = useState("");
   const [dateVisited, setdateVisited] = useState(new Date());
-  const { handleNewCity, visitedCities } = useCities();
-  const { city, country, country_code, emoji } = options || {};
+  const { handleNewCity } = useCities();
+  const { city, country, country_code, emoji, id, imgUrl, about } =
+    options || {};
   const newCity = {
     city,
     country_code,
@@ -22,8 +21,9 @@ export const Form = ({ setIsOpen, ...options }) => {
     note,
     dateVisited,
     emoji,
+    imgUrl,
+    about,
   };
-  console.log(emoji);
   return (
     <>
       <form
@@ -54,7 +54,6 @@ export const Form = ({ setIsOpen, ...options }) => {
           id="added"
           selected={dateVisited}
           onChange={(date) => setdateVisited(date)}
-          
         />{" "}
         <label
           htmlFor="note"

@@ -1,6 +1,7 @@
 import { NavLink } from "react-router-dom";
 
 export const SectionNavBar = ({ views = [] }) => {
+  const [view1, view2] = views;
   return (
     <nav>
       <ul
@@ -9,10 +10,10 @@ export const SectionNavBar = ({ views = [] }) => {
        text-center [&_a]:w-25 [&_a]:bg-gray-200  [&_a]:py-[3px] [&_a]:transition-all [&_a]:duration-300 [&_a]:ease-in-out [&>li]:p-1"
       >
         <li>
-          <NavLink to={views[0]}>{views[0]}</NavLink>
+          <NavLink to={view1}>{view1}</NavLink>
         </li>
         <li>
-          <NavLink to={views[1]}>{views[1]}</NavLink>
+          <NavLink to={view2}>{view2}</NavLink>
         </li>
       </ul>
     </nav>

@@ -9,7 +9,7 @@ export const Cities = () => {
   return (
     <section className="  mt-5">
       <ul className="max-w-[500px] mx-auto pb-10">
-        {visitedCities.map(({ city, lat, lon, id, note, emoji }) => (
+        {visitedCities.map(({ city, lat, lon, id, note, emoji, imgUrl }) => (
           <CitiesItems
             key={id}
             cityName={city}
@@ -18,36 +18,10 @@ export const Cities = () => {
             note={note}
             id={id}
             emoji={emoji}
+            imgUrl={imgUrl}
           />
         ))}
       </ul>
     </section>
   );
 };
-//  const b ={  city
-// :
-// "London"
-// city_image
-// :
-// ""
-// country
-// :
-// "United Kingdom"
-// country_code
-// :
-// "gb"
-// dateVisited
-// :
-// Thu Sep 04 2025 22:16:41 GMT+0100 (West Africa Standard Time) {}
-// id
-// :
-// "1757020597986"
-// lat
-// :
-// "51.51632755391457"
-// lon
-// :
-// "-0.06334304809570314"
-// note
-// }
-// "love this city its so cool"
