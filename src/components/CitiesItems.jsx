@@ -1,5 +1,6 @@
 import { Link, useNavigate } from "react-router-dom";
 import { Button } from "./Button";
+import { CountryFlag } from "./CountryFlag";
 export const CitiesItems = ({
   cityName,
   lat,
@@ -13,7 +14,7 @@ export const CitiesItems = ({
   return (
     <li
       className="block text-white mb-4 cursor-pointer relative"
-      onClick={() => navigate(`/cities/${id}?lat=${lat}&lon=${lon}`)}
+      onClick={() => navigate(`/cities/${id}`)}
     >
       <div
         className="relative w-full  h-100 rounded-[20px] p-4 overflow-hidden shadow-xl"
@@ -33,7 +34,7 @@ export const CitiesItems = ({
         <div className="absolute bottom-5">
           <div className="flex items-center space-x-2">
             <h1 className="font-bold text-2xl  max-w-[300px]">{cityName}</h1>{" "}
-            <img src={emoji} alt="country-flag" className=" w-[20px]" />
+            <CountryFlag src={emoji} styles=" w-[20px]" />
           </div>
           <p className="text-sm  max-w-[350px]">{note}</p>
         </div>

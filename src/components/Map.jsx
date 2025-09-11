@@ -31,8 +31,8 @@ const Map = () => {
           attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
           url="https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}.png"
         />
-        {visitedCities.map(({ lat, lon, city, emoji }) => (
-          <Marker position={[lat, lon]}>
+        {visitedCities.map(({ lat, lon, city, emoji, id }) => (
+          <Marker position={[lat, lon]} key={id}>
             <Popup>
               <div className="text-center flex flex-col items-center justify-center">
                 <img src={emoji} alt="" className="w-5 mb-1" />

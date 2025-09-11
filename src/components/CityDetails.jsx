@@ -7,21 +7,28 @@ import { BottomSheet } from "./BottomSheet";
 import { Form } from "./Form";
 import { useCities } from "../hooks/useCities";
 import { Message } from "./Message";
+import { CountryFlag } from "./CountryFlag";
+
+const getCountrFlag = (countryCode) =>
+  `https://flagcdn.com/w40/${countryCode}.png`;
 const LOCATIONIQ_BASE_URL = "https://us1.locationiq.com/v1";
 const WIKIPEDIA_BASE_URL = "https://en.wikipedia.org/api/rest_v1";
 const locationIqApiToken = import.meta.env.VITE_LOCATIONIQ_TOKEN;
-const pexelsApiToken = import.meta.env.VITE_PIXELS_TOKEN;
+const pexelsApiToken = import.meta.env.VITE_PEXELS_TOKEN;
 const PEXELS_BASE_URL = "https://api.pexels.com/v1";
-const getCountrFlag = (countryCode) =>
-  `https://flagcdn.com/w40/${countryCode}.png`;
+
+
 export const CityDetails = () => {
-  const navigate = useNavigate();
   const { id } = useParams();
   const [lat, lon] = useQueryString();
+  const { visitedCities } = useCities();
   const [cityInfo, setCityInfo] = useState([]);
-  const [aboutCity, setAboutCity] = useState({});
+  const [aboutCity, setAboutCity] = useState("");
   const [cityImage, setCityImage] = useState({});
+  const [isOpen, setIsOpen] = useState(false);
   const { src: { original: imgSrc } = {} } = cityImage;
+
+  // Default City Details from an Api data
   const {
     country: countryName,
     country_code,
@@ -31,23 +38,18 @@ export const CityDetails = () => {
     region,
     city = state ?? city_district ?? county ?? region,
   } = cityInfo || {};
-  const [isOpen, setIsOpen] = useState(false);
-  const { visitedCities } = useCities();
-  //use global state as a fallback details
-  const {
-    emoji,
-    note,
-    city: cityName,
-    country,
-    country_code: visitedCountryCode,
-    imgUrl,
-    about,
-  } = visitedCities.find((city) => city.id === id) ?? {};
+
+  // Read from global State and use as a fallback City image
+  const { imgUrl } = visitedCities.find((city) => city.id === id) ?? {};
+
+  //Check if a city is already visited
   const isVisited = visitedCities.map(({ id }) => id).includes(id);
-  const countryFlag = getCountrFlag(country_code || visitedCountryCode);
+
+  const countryFlag = getCountrFlag(country_code);
+
+  // Fetch a city using reverse geocoding API using city coordinates
   useEffect(() => {
     async function getCity() {
-      if (cityName) return;
       if (!lon && !lat) return;
       const res = await fetch(
         `${LOCATIONIQ_BASE_URL}/reverse?key=${locationIqApiToken}&lat=${lat}&lon=${lon}&format=json&`
@@ -56,15 +58,16 @@ export const CityDetails = () => {
       setCityInfo(address);
     }
     getCity();
-  }, [lat, lon, cityName]);
+  }, [lat, lon, city]);
 
+  // Fetch city image from unsplash and about city from wikipedia
   useEffect(() => {
+    if (!city) return;
     const URLs = [
-      `${WIKIPEDIA_BASE_URL}/page/summary/${city ?? cityName}`,
+      `${WIKIPEDIA_BASE_URL}/page/summary/${city}`,
       `${PEXELS_BASE_URL}/search?query=${city}`,
     ];
     async function getMoreCityInfo() {
-      if (!city) return;
       const [res1, res2] = await Promise.all([
         fetch(URLs[0]),
         fetch(URLs[1], {
@@ -74,59 +77,26 @@ export const CityDetails = () => {
         }),
       ]);
       const [data1, data2] = await Promise.all([res1.json(), res2.json()]);
-      setAboutCity(data1);
+      setAboutCity(data1?.description);
       setCityImage(data2?.photos[3]);
     }
     getMoreCityInfo();
-  }, [city, cityName]);
+  }, [city]);
+
   return (
     <section className="h-screen text-white relative">
-      <div
-        className="h-[50%] relative"
-        style={{
-          background: `url(${imgSrc || imgUrl}) center/cover`,
-        }}
-      >
-        <button
-          className=" mt-20 p-3 cursor-pointer"
-          onClick={() => navigate(-1)}
-        >
-          <FaArrowLeft />
-        </button>
-      </div>
+      <CityDetailsHero imgUrl={imgUrl} imgSrc={imgSrc} />
       <BottomSheet>
         {!isOpen && (
           <>
-            <header className="relative">
-              {" "}
-              <h1 className="text-2xl  font-bold max-w-[300px] ">
-                {city ?? cityName}
-              </h1>
-              <p className="text-sm">{countryName ?? country}</p>
-              <img
-                src={countryFlag ?? emoji}
-                alt="Country flag"
-                className="absolute top-2 right-0 rounded-sm w-[40px]"
-              />
-            </header>
-            <div className="mt-5 mb-3">
-              <h2 className=" mb-1">ABOUT</h2>
-              <p className="text-sm text-gray-700">
-                {aboutCity?.description ?? about}
-              </p>
-            </div>
-            <div>
-              <h2 className=" mb-4 font-inter">HIGHTLIGHT</h2>
-            </div>
-            <div className="mb-4">
-              <h2 className="">NOTES</h2>
-              <div className="text-sm bg-gray-100 p-3 rounded-lg mt-1 h-[100px] flex items-center justify-center text-center">
-                {isVisited && <p>{note}</p>}
-                {!isVisited && (
-                  <Message message="Save visit to add and view note." />
-                )}
-              </div>
-            </div>
+            <CityDetailsContent
+              isVisited={isVisited}
+              countryName={countryName}
+              cityName={city}
+              aboutCity={aboutCity}
+              countryFlag={countryFlag}
+              id={id}
+            />
 
             {!isVisited && (
               <Button
@@ -144,17 +114,85 @@ export const CityDetails = () => {
         {isOpen && (
           <Form
             setIsOpen={setIsOpen}
-            city={city}
-            state={state}
-            country_code={country_code}
+            cityName={city}
             emoji={countryFlag}
+            imgUrl={imgSrc}
             country={countryName}
             id={id}
-            imgUrl={imgSrc}
-            about={aboutCity.description}
+            about={aboutCity}
           />
         )}
       </BottomSheet>
     </section>
+  );
+};
+
+const CityDetailsContent = ({
+  isVisited,
+  countryName,
+  cityName,
+  aboutCity,
+  countryFlag,
+  id,
+}) => {
+  const { visitedCities } = useCities();
+
+  // Read from global State and use as a fallback City details
+  const {
+    emoji,
+    note,
+    cityName: visitedCityName,
+    country: visitedCountryName,
+    about,
+  } = visitedCities.find((city) => city.id === id) ?? {};
+
+  return (
+    <>
+      <header className="relative">
+        <h1 className="text-2xl  font-bold max-w-[300px] ">
+          {cityName ?? visitedCityName}
+        </h1>
+        <p className="text-sm">{countryName ?? visitedCountryName}</p>
+        <CountryFlag
+          src={emoji || countryFlag}
+          styles="absolute top-2 right-0 rounded-sm w-[40px]"
+        />
+      </header>
+      <div className="mt-5 mb-3">
+        <h2 className=" mb-1">ABOUT</h2>
+        <p className="text-sm text-gray-700">{aboutCity || about}</p>
+      </div>
+      <div>
+        <h2 className=" mb-4 font-inter">HIGHTLIGHT</h2>
+      </div>
+      <div className="mb-4">
+        <h2 className="">NOTES</h2>
+        <div className="text-sm bg-gray-100 p-3 rounded-lg mt-1 h-[100px] flex items-center justify-center text-center">
+          {isVisited && <p>{note}</p>}
+          {!isVisited && <Message message="Save visit to add and view note." />}
+        </div>
+      </div>
+    </>
+  );
+};
+
+const CityDetailsHero = ({ imgSrc, imgUrl }) => {
+  const navigate = useNavigate();
+  return (
+    <>
+      <div
+        className="h-[50%] relative"
+        style={{
+          background: `url(${imgSrc || imgUrl}) center/cover`,
+        }}
+      >
+        <button
+          className=" mt-20 p-3 cursor-pointer"
+          onClick={() => navigate(-1)}
+        >
+          <FaArrowLeft />
+        </button>
+      </div>
+    </>
   );
 };
