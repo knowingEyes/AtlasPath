@@ -23,7 +23,7 @@ export const CityDetails = () => {
   const [lat, lon] = useQueryString();
   const { visitedCities } = useCities();
   const [cityInfo, setCityInfo] = useState([]);
-  const [aboutCity, setAboutCity] = useState("");
+  const [aboutCity, setAboutCity] = useState(null);
   const [cityImage, setCityImage] = useState({});
   const [isOpen, setIsOpen] = useState(false);
   const { src: { original: imgSrc } = {} } = cityImage;
