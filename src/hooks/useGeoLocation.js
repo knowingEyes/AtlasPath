@@ -3,10 +3,10 @@ import { useEffect, useState } from "react";
 export const useGeoLocation = () => {
   const [myPosition, setMyPosition] = useState(null);
   const [error, setError] = useState(null);
-  useEffect(() => {
+
+  const getUserGeoLocation = () => {
     if (!navigator.geolocation)
       return setError("GeoLocation is not supported by your browser");
-
     navigator.geolocation.getCurrentPosition(
       (pos) => {
         setMyPosition({
@@ -18,8 +18,8 @@ export const useGeoLocation = () => {
         setError(error.message);
       }
     );
-  }, []);
-  return { myPosition, error };
+  };
+  return { myPosition, error, getUserGeoLocation };
 };
 
 // export const useGeoLocation = () => {

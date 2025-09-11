@@ -4,16 +4,16 @@ import {
   Marker,
   Popup,
   useMapEvent,
-  useMap,
 } from "react-leaflet";
 import { useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { useQueryString } from "../hooks/useQueryString";
 import { useCities } from "../hooks/useCities";
 import { useGeoLocation } from "../hooks/useGeoLocation";
+import { Button } from "./Button";
 
 const Map = () => {
-  const {myPosition, error} = useGeoLocation()
+  const {myPosition, error, getUserGeoLocation } = useGeoLocation()
   const [lat, lon] = useQueryString();
   const [position, setPosition] = useState([51.565, -0.05]);
   const { visitedCities } = useCities();
@@ -23,7 +23,7 @@ const Map = () => {
     setPosition([lat, lon]);
   }, [lat, lon]);
   return (
-    <div className="h-screen">
+    <div className="h-screen relative">
       <MapContainer
         center={position}
         zoom={6}
@@ -47,6 +47,9 @@ const Map = () => {
         <SetView position={position} />
         <DetectClick />
       </MapContainer>
+      {!myPosition && <Button onClick={()=> getUserGeoLocation()} styles="bg-black/60 absolute z-9999 shadow-xl rounded-xl left-[50%] top-[5%] text-xs -translate-x-[50%]">
+        Use my location
+      </Button>}
     </div>
   );
 };
