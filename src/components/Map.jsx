@@ -24,6 +24,7 @@ const Map = () => {
     if (!lat && !lon) return;
     setPosition([lat, lon]);
   }, [lat, lon]);
+
   return (
     <div className="h-screen relative">
       <MapContainer
@@ -52,7 +53,13 @@ const Map = () => {
       </MapContainer>
       {!myPosition && (
         <Button
-          onClick={() => getUserGeoLocation()}
+          onClick={() => {
+            getUserGeoLocation();
+            if (error)
+              alert(
+                "Location access is blocked or turned off. Please enable location services in your browser settings and refresh the page."
+              );
+          }}
           styles="bg-black/60 absolute z-9999 shadow-xl rounded-xl left-[50%] top-[5%] text-xs -translate-x-[50%]"
         >
           Use my location
