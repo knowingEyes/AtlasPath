@@ -9,7 +9,7 @@ export const Cities = () => {
   return (
     <section className="  mt-5">
       <ul className="max-w-[500px] mx-auto pb-10">
-        {visitedCities.map(({ cityName, lat, lon, id, note, emoji, imgUrl }) => (
+        {visitedCities.map(({ cityName, lat, lon, id, note, emoji, imgUrl, dateVisited }) => (
           <CitiesItems
             key={id}
             cityName={cityName}
@@ -19,6 +19,7 @@ export const Cities = () => {
             id={id}
             emoji={emoji}
             imgUrl={imgUrl}
+            dateVisited={dateVisited}
           />
         ))}
       </ul>

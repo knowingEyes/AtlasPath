@@ -1,6 +1,16 @@
 import { Link, useNavigate } from "react-router-dom";
 import { Button } from "./Button";
 import { CountryFlag } from "./CountryFlag";
+const dateFormatter = (data) => {
+  const date = new Date(data)
+  return date.toLocaleDateString("en", {
+    year : "numeric",
+    day: "numeric",
+    month : "long"
+
+  })
+}
+  
 export const CitiesItems = ({
   cityName,
   lat,
@@ -9,7 +19,9 @@ export const CitiesItems = ({
   id,
   emoji,
   imgUrl,
+  dateVisited
 }) => {
+  const formattedDate= dateFormatter(dateVisited)
   const navigate = useNavigate();
   return (
     <li
@@ -37,6 +49,7 @@ export const CitiesItems = ({
             <CountryFlag src={emoji} styles=" w-[20px]" />
           </div>
           <p className="text-sm  max-w-[350px]">{note}</p>
+          <span className="text-[11px]">{formattedDate}</span>
         </div>
       </div>
     </li>

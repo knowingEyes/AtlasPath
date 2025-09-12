@@ -61,6 +61,7 @@ export const Form = ({ setIsOpen, ...options }) => {
         Leave a note
       </label>
       <textarea
+      minLength={30}
         id="note"
         rows="4"
         className="block p-2.5 w-full text-[16px] text-gray-900 bg-gray-100 rounded-lg border border-gray-300

@@ -19,5 +19,7 @@ export const useGeoLocation = () => {
       }
     );
   };
+  
   return { myPosition, error, getUserGeoLocation };
+
 };
