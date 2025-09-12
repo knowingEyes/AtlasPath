@@ -29,7 +29,8 @@ export const CityDetails = () => {
   const [cityImage, setCityImage] = useState({});
   const [isOpen, setIsOpen] = useState(false);
   const { src: { original: imgSrc } = {}, photographer, photographer_url } = cityImage;
-  // Default City Details from an Api data
+
+  // Default City Details from an Api data from LocationIQ
   const {
     country: countryName,
     country_code,
@@ -48,7 +49,7 @@ export const CityDetails = () => {
 
   const countryFlag = getCountrFlag(country_code);
 
-  // Fetch a city using reverse geocoding API using city coordinates
+  // Fetch a city using reverse geocoding API with city coordinates(lat and lon) from LocationIQ
   useEffect(() => {
     async function getCity() {
       if (!lon && !lat) return;
@@ -61,7 +62,7 @@ export const CityDetails = () => {
     getCity();
   }, [lat, lon, city]);
 
-  // Fetch city image from unsplash and about city from wikipedia
+  // Fetch city image from unsplash and about the city from wikipedia
   useEffect(() => {
     if (!city) return;
     const URLs = [
@@ -85,7 +86,7 @@ export const CityDetails = () => {
   }, [city]);
 
   return (
-    <section className="h-screen text-white relative">
+    <section className="h-screen text-white relative overflow-y-hidden">
       <CityDetailsHero imgUrl={imgUrl} imgSrc={imgSrc} cityImage={cityImage}>
         <PhotoAttribution PhotoGraperName={photographer} photoGrapherUrl={photographer_url}/>
       </CityDetailsHero>
