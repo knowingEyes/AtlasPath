@@ -8,15 +8,17 @@ import { Form } from "./Form";
 import { useCities } from "../hooks/useCities";
 import { Message } from "./Message";
 import { CountryFlag } from "./CountryFlag";
+import { PhotoAttribution } from "./PhotoAttribution";
+import {
+  LOCATIONIQ_BASE_URL,
+  locationIqApiToken,
+  PEXELS_BASE_URL,
+  pexelsApiToken,
+  WIKIPEDIA_BASE_URL,
+} from "../config/apiconfig";
 
 const getCountrFlag = (countryCode) =>
   `https://flagcdn.com/w40/${countryCode}.png`;
-const LOCATIONIQ_BASE_URL = "https://us1.locationiq.com/v1";
-const WIKIPEDIA_BASE_URL = "https://en.wikipedia.org/api/rest_v1";
-const locationIqApiToken = import.meta.env.VITE_LOCATIONIQ_TOKEN;
-const pexelsApiToken = import.meta.env.VITE_PEXELS_TOKEN;
-const PEXELS_BASE_URL = "https://api.pexels.com/v1";
-
 
 export const CityDetails = () => {
   const { id } = useParams();
@@ -26,8 +28,7 @@ export const CityDetails = () => {
   const [aboutCity, setAboutCity] = useState(null);
   const [cityImage, setCityImage] = useState({});
   const [isOpen, setIsOpen] = useState(false);
-  const { src: { original: imgSrc } = {} } = cityImage;
-
+  const { src: { original: imgSrc } = {}, photographer, photographer_url } = cityImage;
   // Default City Details from an Api data
   const {
     country: countryName,
@@ -38,7 +39,7 @@ export const CityDetails = () => {
     region,
     city = state ?? city_district ?? county ?? region,
   } = cityInfo || {};
-
+  
   // Read from global State and use as a fallback City image
   const { imgUrl } = visitedCities.find((city) => city.id === id) ?? {};
 
@@ -85,7 +86,10 @@ export const CityDetails = () => {
 
   return (
     <section className="h-screen text-white relative">
-      <CityDetailsHero imgUrl={imgUrl} imgSrc={imgSrc} />
+      <CityDetailsHero imgUrl={imgUrl} imgSrc={imgSrc} cityImage={cityImage}>
+        <PhotoAttribution PhotoGraperName={photographer} photoGrapherUrl={photographer_url}/>
+      </CityDetailsHero>
+
       <BottomSheet>
         {!isOpen && (
           <>
@@ -176,7 +180,11 @@ const CityDetailsContent = ({
   );
 };
 
-const CityDetailsHero = ({ imgSrc, imgUrl }) => {
+const CityDetailsHero = ({
+  imgSrc,
+  imgUrl,
+  children
+}) => {
   const navigate = useNavigate();
   return (
     <>
@@ -192,6 +200,7 @@ const CityDetailsHero = ({ imgSrc, imgUrl }) => {
         >
           <FaArrowLeft />
         </button>
+        {children}
       </div>
     </>
   );
