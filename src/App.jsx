@@ -1,13 +1,13 @@
 import {  Navigate, Route, Routes } from "react-router-dom";
 import { Layout } from "./components/Layout";
 import { Discover } from "./components/Discover";
-import { Journal } from "./components/Journal";
 import { HomePage } from "./components/HomePage";
 import Map from "./components/Map";
 import { Cities } from "./components/Cities";
 import { Countries } from "./components/Countries";
 import { CityDetails } from "./components/CityDetails";
 import { CitiesProvider } from "./contexts/CitiesContext";
+import { Stats } from "./components/Stats";
 
 function App() {
   return (
@@ -22,7 +22,7 @@ function App() {
           </Route>
           <Route path="map" element={<Map />} />
           <Route path="discover" element={<Discover />} />
-          <Route path="journal" element={<Journal />} />
+          <Route path="stats" element={<Stats />} />
         </Route>
         <Route path="cities/:id" element={<CityDetails />} />
         <Route
