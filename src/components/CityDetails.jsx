@@ -28,7 +28,11 @@ export const CityDetails = () => {
   const [aboutCity, setAboutCity] = useState(null);
   const [cityImage, setCityImage] = useState({});
   const [isOpen, setIsOpen] = useState(false);
-  const { src: { original: imgSrc } = {}, photographer, photographer_url } = cityImage;
+  const {
+    src: { original: imgSrc } = {},
+    photographer,
+    photographer_url,
+  } = cityImage || {};
 
   // Default City Details from an Api data from LocationIQ
   const {
@@ -40,7 +44,7 @@ export const CityDetails = () => {
     region,
     city = state ?? city_district ?? county ?? region,
   } = cityInfo || {};
-  
+
   // Read from global State and use as a fallback City image
   const { imgUrl } = visitedCities.find((city) => city.id === id) ?? {};
 
@@ -80,7 +84,7 @@ export const CityDetails = () => {
       ]);
       const [data1, data2] = await Promise.all([res1.json(), res2.json()]);
       setAboutCity(data1?.description);
-      setCityImage(data2?.photos[3]);
+      setCityImage(data2?.photos[Math.floor(Math.random() * 3) + 1 ]);
     }
     getMoreCityInfo();
   }, [city]);
@@ -88,7 +92,10 @@ export const CityDetails = () => {
   return (
     <section className="h-screen text-white relative overflow-y-hidden">
       <CityDetailsHero imgUrl={imgUrl} imgSrc={imgSrc} cityImage={cityImage}>
-        <PhotoAttribution PhotoGraperName={photographer} photoGrapherUrl={photographer_url}/>
+        <PhotoAttribution
+          PhotoGraperName={photographer}
+          photoGrapherUrl={photographer_url}
+        />
       </CityDetailsHero>
 
       <BottomSheet>
@@ -150,7 +157,7 @@ const CityDetailsContent = ({
     country: visitedCountryName,
     about,
   } = visitedCities.find((city) => city.id === id) ?? {};
-
+  const aboutCityToUse = aboutCity || about;
   return (
     <>
       <header className="relative">
@@ -163,9 +170,13 @@ const CityDetailsContent = ({
           styles="absolute top-2 right-0 rounded-sm w-[40px]"
         />
       </header>
-      <div className="mt-5 mb-3">
+      <div className="mt-5 mb-3 [&_p]:text-left">
         <h2 className=" mb-1">ABOUT</h2>
-        <p className="text-sm text-gray-700">{aboutCity || about}</p>
+        {!aboutCityToUse ? (
+          <Message message="No information available for this location."/>
+        ) : (
+          <p className="text-sm text-gray-700">{aboutCityToUse}</p>
+        )}
       </div>
       <div>
         <h2 className=" mb-4 font-inter">HIGHTLIGHT</h2>
@@ -173,36 +184,38 @@ const CityDetailsContent = ({
       <div className="mb-4">
         <h2 className="">NOTES</h2>
         <div className="text-sm bg-gray-100 p-3 rounded-lg mt-1 h-[100px] flex items-center justify-center text-center">
-          {isVisited && <p>{note}</p>}
-          {!isVisited && <Message message="Save visit to add and view note." />}
+          {isVisited ? (
+            <p>{note}</p>
+          ) : (
+            <Message message="Save visit to add and view note." />
+          )}
         </div>
       </div>
     </>
   );
 };
 
-const CityDetailsHero = ({
-  imgSrc,
-  imgUrl,
-  children
-}) => {
+const CityDetailsHero = ({ imgSrc, imgUrl, children }) => {
   const navigate = useNavigate();
+  const imageToUse = imgSrc || imgUrl
   return (
     <>
       <div
-        className="h-[50%] relative"
+        className="h-[50%] relative [&_p]:text-white"
         style={{
-          background: `url(${imgSrc || imgUrl}) center/cover`,
+          background: `${imageToUse ? `url(${imageToUse}) center/cover` : "linear-gradient(to top, #3b82f6, #ef4444)"}`,
         }}
       >
-        <button
-          className=" mt-20 p-3 cursor-pointer"
+        <Button
+          styles="p-3 cursor-pointer  rounded-full ml-3 absolute top-25 "
           onClick={() => navigate(-1)}
         >
           <FaArrowLeft />
-        </button>
+        </Button>
+        {!imgSrc && !imgUrl && <Message message="No image available for this location" centerMessage={true}/>}
         {children}
       </div>
     </>
   );
 };
+

@@ -5,9 +5,9 @@ import { Message } from "./Message";
 
 export const Cities = () => {
   const { visitedCities } = useCities();
-  if (!visitedCities.length) return <Message message="No Visited Area yet" />;
+  if (!visitedCities.length) return <Message message="No cities to display. Start exploring!"  centerMessage={true}/>;
   return (
-    <section className="  mt-5">
+    <section className="mt-5">
       <ul className="max-w-[500px] mx-auto pb-10">
         {visitedCities.map(({ cityName, lat, lon, id, note, emoji, imgUrl, dateVisited }) => (
           <CitiesItems

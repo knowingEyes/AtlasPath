@@ -9,6 +9,7 @@ import {
   Tooltip,
   Legend,
 } from "chart.js";
+import { Message } from "./Message";
 ChartJS.register(
   CategoryScale,
   LinearScale,
@@ -61,49 +62,56 @@ export const Stats = () => {
       },
     ],
   };
-  if (!visitedCities.length) return null;
   return (
     <section className="h-screen p-4 flex flex-col  justify-center">
-      <h1 className="text-2xl text-center font-semibold m-3">Most visited cities per country</h1>
-      <Bar
-        data={data}
-        options={{
-          plugins :{
-           legend : {
-            display : false
-           }
-          },
-          scales: {
-            y: {
-              grid: {
-                display: false,
+      {visitedCities.length ? (
+        <>
+          <h1 className="text-2xl text-center font-semibold m-3">
+            Most visited cities per country
+          </h1>
+          <Bar
+            data={data}
+            options={{
+              plugins: {
+                legend: {
+                  display: false,
+                },
               },
-            },
-            x: {
-              grid: {
-                display: false,
+              scales: {
+                y: {
+                  grid: {
+                    display: false,
+                  },
+                },
+                x: {
+                  grid: {
+                    display: false,
+                  },
+                },
               },
-            },
-          },
-        }}
-      />
-      <div
-        className="flex justify-evenly mt-5 [&_h4]:text-[1.15rem] [&_h4]:font-bold 
+            }}
+          />
+          <div
+            className="flex justify-evenly mt-5 [&_h4]:text-[1.15rem] [&_h4]:font-bold 
       [&>div]:flex [&>div]:flex-col [&>div]:items-center [&_span]:text-2xl"
-      >
-        <div>
-          <h4>Total visits</h4>
-          <span>
-            <strong>{visitedCities.length}</strong>
-          </span>
-        </div>
-        <div>
-          <h4>Most visited city</h4>
-          <span>
-            <strong>Berlin</strong>
-          </span>
-        </div>
-      </div>
+          >
+            <div>
+              <h4>Total visits</h4>
+              <span>
+                <strong>{visitedCities.length}</strong>
+              </span>
+            </div>
+            <div>
+              <h4>Most visited city</h4>
+              <span>
+                <strong>Berlin</strong>
+              </span>
+            </div>
+          </div>
+        </>
+      ) : (
+        <Message message="Visit a city to see your stats." centerMessage={true}/>
+      )}
     </section>
   );
 };
