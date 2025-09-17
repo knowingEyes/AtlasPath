@@ -9,7 +9,7 @@ import { NavLink } from "react-router-dom";
 export const MainNavBar = () => {
   return (
     <nav className="fixed bottom-0 w-full text-white p-4 z-[9999]">
-      <ul className="flex [&>li]:flex [&>li]:flex-col [&>li]:items-center justify-between  rounded-[10px] bg-[#121212] px-6 py-4 [&_a]:block [&_a]:p-1
+      <ul className="flex [&>li]:flex [&>li]:flex-col [&>li]:items-center justify-between  rounded-[10px] bg-gradient-to-t from-[#1a1a1a] to-[#1c1c1c] px-6 py-4 [&_a]:block [&_a]:p-1
        [&_a]:rounded-full [&_.active]:bg-white/15 [&_span]:text-xs [&_a]:active:scale-[1.1] [&_a]:transition-transform">
         <li>
           <NavLink to="homepage">

@@ -1,6 +1,109 @@
+import { Bar } from "react-chartjs-2";
+import { useCities } from "../hooks/useCities";
+import {
+  Chart as ChartJS,
+  CategoryScale,
+  LinearScale,
+  BarElement,
+  Title,
+  Tooltip,
+  Legend,
+} from "chart.js";
+ChartJS.register(
+  CategoryScale,
+  LinearScale,
+  BarElement,
+  Tooltip,
+  Title,
+  Legend
+);
 
 export const Stats = () => {
+  const { visitedCities } = useCities();
+
+  //This reduce returns a filtred array of a country reoccurence
+  const countriesVisited = visitedCities.reduce((acc, curr) => {
+    if (!acc.map((country) => country).includes(curr.country)) {
+      return [...acc, curr.country];
+    } else return acc;
+  }, []);
+
+  //This reduce returns an object of visited cities for each visited countries.
+  //It uses the country reoccurence to get the city count.
+  const cityCountPerCountry = visitedCities.reduce((acc, curr) => {
+    acc[curr.country] = (acc[curr.country] || 0) + 1;
+    return acc;
+  }, {});
+
+  // Stats Data
+  const data = {
+    labels: countriesVisited,
+    datasets: [
+      {
+        label: "Cities visited per country",
+        data: Object.values(cityCountPerCountry),
+        backgroundColor: (ctx) => {
+          const chart = ctx.chart;
+          const { ctx: c, chartArea } = chart;
+          if (!chartArea) return null;
+
+          const gradient = c.createLinearGradient(
+            0,
+            chartArea.bottom,
+            0,
+            chartArea.top
+          );
+          gradient.addColorStop(0, "#121212");
+          gradient.addColorStop(1, "#3a3a3a");
+          return gradient;
+        },
+        borderRadius: 10,
+      },
+    ],
+  };
+  if (!visitedCities.length) return null;
   return (
-    <div>Stats</div>
-  )
-}
+    <section className="h-screen p-4 flex flex-col  justify-center">
+      <h1 className="text-2xl text-center font-semibold m-3">Most visited cities per country</h1>
+      <Bar
+        data={data}
+        options={{
+          plugins :{
+           legend : {
+            display : false
+           }
+          },
+          scales: {
+            y: {
+              grid: {
+                display: false,
+              },
+            },
+            x: {
+              grid: {
+                display: false,
+              },
+            },
+          },
+        }}
+      />
+      <div
+        className="flex justify-evenly mt-5 [&_h4]:text-[1.15rem] [&_h4]:font-bold 
+      [&>div]:flex [&>div]:flex-col [&>div]:items-center [&_span]:text-2xl"
+      >
+        <div>
+          <h4>Total visits</h4>
+          <span>
+            <strong>{visitedCities.length}</strong>
+          </span>
+        </div>
+        <div>
+          <h4>Most visited city</h4>
+          <span>
+            <strong>Berlin</strong>
+          </span>
+        </div>
+      </div>
+    </section>
+  );
+};
