@@ -84,7 +84,7 @@ export const CityDetails = () => {
       ]);
       const [data1, data2] = await Promise.all([res1.json(), res2.json()]);
       setAboutCity(data1?.description);
-      setCityImage(data2?.photos[Math.floor(Math.random() * 3) + 1 ]);
+      setCityImage(data2?.photos[Math.floor(Math.random() * 3) + 1]);
     }
     getMoreCityInfo();
   }, [city]);
@@ -100,28 +100,15 @@ export const CityDetails = () => {
 
       <BottomSheet>
         {!isOpen && (
-          <>
-            <CityDetailsContent
-              isVisited={isVisited}
-              countryName={countryName}
-              cityName={city}
-              aboutCity={aboutCity}
-              countryFlag={countryFlag}
-              id={id}
-            />
-
-            {!isVisited && (
-              <Button
-                styles="rounded-full block w-[100%] mx-auto"
-                onClick={() => setIsOpen((p) => !p)}
-              >
-                Save visit
-              </Button>
-            )}
-            {isVisited && (
-              <Button styles=" rounded-full w-full">Visited</Button>
-            )}
-          </>
+          <CityDetailsContent
+            isVisited={isVisited}
+            countryName={countryName}
+            cityName={city}
+            aboutCity={aboutCity}
+            countryFlag={countryFlag}
+            id={id}
+            setIsOpen={setIsOpen}
+          />
         )}
         {isOpen && (
           <Form
@@ -146,6 +133,7 @@ const CityDetailsContent = ({
   aboutCity,
   countryFlag,
   id,
+  setIsOpen,
 }) => {
   const { visitedCities } = useCities();
 
@@ -157,7 +145,9 @@ const CityDetailsContent = ({
     country: visitedCountryName,
     about,
   } = visitedCities.find((city) => city.id === id) ?? {};
+
   const aboutCityToUse = aboutCity || about;
+  
   return (
     <>
       <header className="relative">
@@ -173,7 +163,7 @@ const CityDetailsContent = ({
       <div className="mt-5 mb-3 [&_p]:text-left">
         <h2 className=" mb-1">ABOUT</h2>
         {!aboutCityToUse ? (
-          <Message message="No information available for this location."/>
+          <Message message="No information available for this location." />
         ) : (
           <p className="text-sm text-gray-700">{aboutCityToUse}</p>
         )}
@@ -191,31 +181,50 @@ const CityDetailsContent = ({
           )}
         </div>
       </div>
+      <div className="[&>button]:rounded-full [&>button]:min-w-[100%]">
+       {!isVisited ? (
+          <Button
+            onClick={() => setIsOpen((p) => !p)}
+          >
+            Save visit
+          </Button>
+        ) : (
+          <Button>Visited</Button>
+        )}
+        </div>
     </>
   );
 };
 
 const CityDetailsHero = ({ imgSrc, imgUrl, children }) => {
   const navigate = useNavigate();
-  const imageToUse = imgSrc || imgUrl
+  const imageToUse = imgSrc || imgUrl;
   return (
     <>
       <div
         className="h-[50%] relative [&_p]:text-white"
         style={{
-          background: `${imageToUse ? `url(${imageToUse}) center/cover` : "linear-gradient(to top, #3b82f6, #ef4444)"}`,
+          background: `${
+            imageToUse
+              ? `url(${imageToUse}) center/cover`
+              : "linear-gradient(to top, #3b82f6, #ef4444)"
+          }`,
         }}
       >
         <Button
-          styles="p-3 cursor-pointer  rounded-full ml-3 absolute top-25 "
+          styles="p-3 cursor-pointer  rounded-full ml-3 absolute top-10 "
           onClick={() => navigate(-1)}
         >
           <FaArrowLeft />
         </Button>
-        {!imgSrc && !imgUrl && <Message message="No image available for this location" centerMessage={true}/>}
+        {!imgSrc && !imgUrl && (
+          <Message
+            message="No image available for this location"
+            centerMessage={true}
+          />
+        )}
         {children}
       </div>
     </>
   );
 };
-

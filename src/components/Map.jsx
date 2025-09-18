@@ -6,6 +6,7 @@ import {
   useMapEvent,
   useMap,
 } from "react-leaflet";
+import L from "leaflet";
 import { useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { useQueryString } from "../hooks/useQueryString";
@@ -13,8 +14,16 @@ import { useCities } from "../hooks/useCities";
 import { useGeoLocation } from "../hooks/useGeoLocation";
 import { Button } from "./Button";
 
+//Create custom marker
+const customIcon = new L.Icon({
+  iconUrl: "https://cdn-icons-png.flaticon.com/512/684/684908.png",
+  iconSize: [32, 32],
+  iconAnchor : [16,32],
+  popupAnchor: [0, -32]
+
+});
 const Map = () => {
-  const { myPosition, error, getUserGeoLocation } = useGeoLocation();
+  const { myPosition, error, getUserGeoLocation, isLoading } = useGeoLocation();
   const [lat, lon] = useQueryString();
   const [position, setPosition] = useState([51.5074, -0.15]);
   const { visitedCities } = useCities();
@@ -38,7 +47,7 @@ const Map = () => {
           url="https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}.png"
         />
         {visitedCities.map(({ lat, lon, cityName, emoji, id }) => (
-          <Marker position={[lat, lon]} key={id}>
+          <Marker position={[lat, lon]} key={id} icon={customIcon} >
             <Popup>
               <div className="text-center flex flex-col items-center justify-center">
                 <img src={emoji} alt="" className="w-5 mb-1" />
@@ -47,7 +56,7 @@ const Map = () => {
             </Popup>
           </Marker>
         ))}
-        {myPosition && <Marker position={myPosition}></Marker>}
+        {myPosition && <Marker position={myPosition} icon={customIcon} ></Marker>}
         <SetView position={positionToUse} myPosition={myPosition} />
         <DetectClick />
       </MapContainer>
@@ -62,7 +71,7 @@ const Map = () => {
           }}
           styles="absolute z-9999 shadow-xl rounded-xl left-[50%] top-[5%] text-xs -translate-x-[50%] "
         >
-          Use my location
+          {isLoading ? "Loading..." : "Use my location"}
         </Button>
       )}
     </div>
