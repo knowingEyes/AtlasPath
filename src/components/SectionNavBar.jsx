@@ -3,7 +3,7 @@ import { NavLink } from "react-router-dom";
 export const SectionNavBar = ({ views = [] }) => {
   const [view1, view2] = views;
   return (
-    <nav>
+    <nav className="mb-5">
       <ul
         className="flex bg-gray-100 w-max  [&_.active]:bg-[#333] font-semibold
        rounded-md [&_a]:rounded-md  [&_.active]:text-white [&_a]:text-sm mx-auto [&_a]:block

@@ -21,7 +21,7 @@ export const CitiesItems = ({
   imgUrl,
   dateVisited
 }) => {
-  const formattedDate= dateFormatter(dateVisited)
+  const formattedDate = dateFormatter(dateVisited)
   const navigate = useNavigate();
   return (
     <li

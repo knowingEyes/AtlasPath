@@ -27,12 +27,22 @@ const CitiesProvider = ({ children }) => {
     if (!visitedCities) return;
     localStorage.setItem("visitedCities", JSON.stringify(visitedCities));
   }, [visitedCities]);
-  
+
+  //This reduce returns a filtred array of a country reoccurence
+  const countriesVisited = visitedCities.reduce((acc, { country }) => {
+    if (!acc.map((country) => country.country).includes(country.country_name)) {
+      return [
+        ...acc,
+        { country: country.country_name, code: country.country_code },
+      ];
+    } else return acc;
+  }, []);
+
   const handleNewCity = (newCity) =>
     dispatch({ type: "ADD_CITY", payload: [...visitedCities, newCity] });
   return (
     <CitiesContext.Provider
-      value={{ city, handleNewCity, visitedCities, position }}
+      value={{ city, handleNewCity, visitedCities, position, countriesVisited }}
     >
       {children}
     </CitiesContext.Provider>

@@ -16,9 +16,8 @@ import {
   pexelsApiToken,
   WIKIPEDIA_BASE_URL,
 } from "../config/apiconfig";
+import { getCountrFlag } from "../utils/getFlag";
 
-const getCountrFlag = (countryCode) =>
-  `https://flagcdn.com/w40/${countryCode}.png`;
 
 export const CityDetails = () => {
   const { id } = useParams();
@@ -44,7 +43,7 @@ export const CityDetails = () => {
     region,
     city = state ?? city_district ?? county ?? region,
   } = cityInfo || {};
-
+  
   // Read from global State and use as a fallback City image
   const { imgUrl } = visitedCities.find((city) => city.id === id) ?? {};
 
@@ -116,7 +115,7 @@ export const CityDetails = () => {
             cityName={city}
             emoji={countryFlag}
             imgUrl={imgSrc}
-            country={countryName}
+            country={{country_name : countryName, country_code : country_code}}
             id={id}
             about={aboutCity}
           />

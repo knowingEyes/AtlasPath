@@ -24,7 +24,6 @@ export const Form = ({ setIsOpen, ...options }) => {
     imgUrl,
     about,
   };
-
   return (
     <form
       onSubmit={(e) => {

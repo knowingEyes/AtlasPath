@@ -20,25 +20,19 @@ ChartJS.register(
 );
 
 export const Stats = () => {
-  const { visitedCities } = useCities();
+  const { visitedCities, countriesVisited } = useCities();
+  console.log(countriesVisited);
 
-  //This reduce returns a filtred array of a country reoccurence
-  const countriesVisited = visitedCities.reduce((acc, curr) => {
-    if (!acc.map((country) => country).includes(curr.country)) {
-      return [...acc, curr.country];
-    } else return acc;
-  }, []);
-
-  //This reduce returns an object of visited cities for each visited countries.
-  //It uses the country reoccurence to get the city count.
-  const cityCountPerCountry = visitedCities.reduce((acc, curr) => {
-    acc[curr.country] = (acc[curr.country] || 0) + 1;
+  /*This reduce returns an object of visited cities for each visited countries.
+   It uses the country reoccurence to get the city count.*/
+  const cityCountPerCountry = visitedCities.reduce((acc, { country }) => {
+    acc[country.country_name] = (acc[country.country_name] || 0) + 1;
     return acc;
   }, {});
-
+  console.log(cityCountPerCountry);
   // Stats Data
   const data = {
-    labels: countriesVisited,
+    labels: countriesVisited.map(({ country }) => country),
     datasets: [
       {
         label: "Cities visited per country",
@@ -110,7 +104,10 @@ export const Stats = () => {
           </div>
         </>
       ) : (
-        <Message message="Visit a city to see your stats." centerMessage={true}/>
+        <Message
+          message="Visit a city to see your stats."
+          centerMessage={true}
+        />
       )}
     </section>
   );
