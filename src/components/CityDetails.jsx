@@ -23,16 +23,16 @@ export const CityDetails = () => {
   const { id } = useParams();
   const [lat, lon] = useQueryString();
   const { visitedCities } = useCities();
-  const [cityInfo, setCityInfo] = useState([]);
+  const [cityInfo, setCityInfo] = useState(null);
   const [aboutCity, setAboutCity] = useState(null);
-  const [cityImage, setCityImage] = useState({});
+  const [cityImage, setCityImage] = useState(null);
   const [isOpen, setIsOpen] = useState(false);
   const {
     src: { original: imgSrc } = {},
     photographer,
     photographer_url,
   } = cityImage || {};
-
+console.log(cityInfo)
   // Default City Details from an Api data from LocationIQ
   const {
     country: countryName,
@@ -87,7 +87,6 @@ export const CityDetails = () => {
     }
     getMoreCityInfo();
   }, [city]);
-
   return (
     <section className="h-screen text-white relative overflow-y-hidden">
       <CityDetailsHero imgUrl={imgUrl} imgSrc={imgSrc} cityImage={cityImage}>

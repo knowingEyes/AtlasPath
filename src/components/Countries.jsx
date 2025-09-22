@@ -4,20 +4,22 @@ import { CountriesItems } from "./CountriesItems";
 import { Message } from "./Message";
 import { PEXELS_BASE_URL, pexelsApiToken } from "../config/apiconfig";
 import { getCountrFlag } from "../utils/getFlag";
+import { useLocalStorageState } from "../hooks/useLocalStorageState";
 
 export const Countries = () => {
   const { visitedCities, countriesVisited } = useCities();
-  const [countriesImages, setCountriesImages] = useState(() => {
-    const savedItem = localStorage.getItem("visitedCountriesImages");
-    return JSON.parse(savedItem) || [];
-  });
-  useEffect(() => {
-    if (!countriesImages.length) return;
-    localStorage.setItem(
-      "visitedCountriesImages",
-      JSON.stringify(countriesImages)
-    );
-  }, [countriesImages]);
+  // const [countriesImages, setCountriesImages] = useState(() => {
+  //   const savedItem = localStorage.getItem("visitedCountriesImages");
+  //   return JSON.parse(savedItem) || [];
+  // });
+  const [countriesImages, setCountriesImages] = useLocalStorageState([], "contriesImages")
+  // useEffect(() => {
+  //   if (!countriesImages.length) return;
+  //   localStorage.setItem(
+  //     "visitedCountriesImages",
+  //     JSON.stringify(countriesImages)
+  //   );
+  // }, [countriesImages]);
   useEffect(() => {
     async function getCountries() {
       if (!visitedCities.length) return;
