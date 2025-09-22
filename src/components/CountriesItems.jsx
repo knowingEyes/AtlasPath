@@ -7,7 +7,6 @@ export const CountriesItems = ({
   photographerurl,
   flag
 }) => {
-  console.log(img)
   return (
     <li className="mb-4">
       <div

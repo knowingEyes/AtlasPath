@@ -62,6 +62,7 @@ const Map = () => {
       </MapContainer>
       {!myPosition && (
         <Button
+        gradient={false}
           onClick={() => {
             getUserGeoLocation();
             if (error)
@@ -69,7 +70,7 @@ const Map = () => {
                 "Location access is blocked or turned off. Please enable location services in your browser settings and refresh the page."
               );
           }}
-          styles="absolute z-9999 shadow-xl rounded-xl left-[50%] top-[5%] text-xs -translate-x-[50%] "
+          styles="absolute z-9999 shadow-xl rounded-xl left-[50%] top-[5%] text-xs -translate-x-[50%] bg-black/50 "
         >
           {isLoading ? "Loading..." : "Use my location"}
         </Button>

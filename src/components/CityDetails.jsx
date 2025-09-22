@@ -146,14 +146,13 @@ const CityDetailsContent = ({
   } = visitedCities.find((city) => city.id === id) ?? {};
 
   const aboutCityToUse = aboutCity || about;
-  
   return (
     <>
       <header className="relative">
         <h1 className="text-2xl  font-bold max-w-[300px] ">
           {cityName ?? visitedCityName}
         </h1>
-        <p className="text-sm">{countryName ?? visitedCountryName}</p>
+        <p className="text-sm">{countryName ?? visitedCountryName?.country_name}</p>
         <CountryFlag
           src={emoji || countryFlag}
           styles="absolute top-2 right-0 rounded-sm w-[40px]"

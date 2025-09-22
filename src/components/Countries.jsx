@@ -18,7 +18,6 @@ export const Countries = () => {
       JSON.stringify(countriesImages)
     );
   }, [countriesImages]);
-console.log(countriesVisited)
   useEffect(() => {
     async function getCountries() {
       if (!visitedCities.length) return;
@@ -36,7 +35,6 @@ console.log(countriesVisited)
       const imgSrcAndAtrribute = data.reduce((acc, { photos = {} }, index) => {
         const countriesCodes = countriesVisited.map(({code})=> code)
         const flag = getCountrFlag(countriesCodes[index]);
-        console.log(countriesCodes)
         acc = [
           ...acc,
           {
@@ -61,7 +59,7 @@ console.log(countriesVisited)
     );
   return (
     <section>
-      <ul className="pb-25">
+      <ul className="pb-25 max-w-[500px] mx-auto">
         {countriesImages.map(({ img, photographer_url, photographer, flag }) => (
           <CountriesItems
             img={img}

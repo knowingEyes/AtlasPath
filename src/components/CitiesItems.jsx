@@ -2,15 +2,14 @@ import { Link, useNavigate } from "react-router-dom";
 import { Button } from "./Button";
 import { CountryFlag } from "./CountryFlag";
 const dateFormatter = (data) => {
-  const date = new Date(data)
+  const date = new Date(data);
   return date.toLocaleDateString("en", {
-    year : "numeric",
+    year: "numeric",
     day: "numeric",
-    month : "long"
+    month: "long",
+  });
+};
 
-  })
-}
-  
 export const CitiesItems = ({
   cityName,
   lat,
@@ -19,9 +18,9 @@ export const CitiesItems = ({
   id,
   emoji,
   imgUrl,
-  dateVisited
+  dateVisited,
 }) => {
-  const formattedDate = dateFormatter(dateVisited)
+  const formattedDate = dateFormatter(dateVisited);
   const navigate = useNavigate();
   return (
     <li
@@ -33,12 +32,13 @@ export const CitiesItems = ({
         style={{ background: `url(${imgUrl}) center/cover ` }}
       >
         <Button
+          gradient={false}
           onClick={(e) => {
             e.stopPropagation();
             navigate(`/map?lat=${lat}&lon=${lon}`);
           }}
-          styles="px-5 py-1 bg-black/50 backdrop-blur-sm 
-          absolute right-4 rounded-full text-sm top-5 z-9999"
+          styles="px-5 py-1 bac 
+          absolute right-4 rounded-full text-sm top-5 z-9999 backdrop-blur-sm bg-black/50"
         >
           📍 Map
         </Button>

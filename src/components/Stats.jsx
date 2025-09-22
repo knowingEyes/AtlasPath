@@ -10,6 +10,7 @@ import {
   Legend,
 } from "chart.js";
 import { Message } from "./Message";
+import { useState } from "react";
 ChartJS.register(
   CategoryScale,
   LinearScale,
@@ -21,7 +22,6 @@ ChartJS.register(
 
 export const Stats = () => {
   const { visitedCities, countriesVisited } = useCities();
-  console.log(countriesVisited);
 
   /*This reduce returns an object of visited cities for each visited countries.
    It uses the country reoccurence to get the city count.*/
@@ -29,7 +29,19 @@ export const Stats = () => {
     acc[country.country_name] = (acc[country.country_name] || 0) + 1;
     return acc;
   }, {});
-  console.log(cityCountPerCountry);
+
+  const mostVisistedCityCount = visitedCities.reduce((acc, { cityName }) => {
+    acc[cityName] = (acc[cityName] || 0) + 1;
+    return acc;
+  }, {});
+
+  const mostVisitedCity = Object.entries(mostVisistedCityCount).reduce(
+    (acc, [city, max]) => {
+      return max > acc.max ? { city, max } : acc;
+    },
+    { city: null, max: 0 }
+  );
+
   // Stats Data
   const data = {
     labels: countriesVisited.map(({ country }) => country),
@@ -87,19 +99,25 @@ export const Stats = () => {
           />
           <div
             className="flex justify-evenly mt-5 [&_h4]:text-[1.15rem] [&_h4]:font-bold 
-      [&>div]:flex [&>div]:flex-col [&>div]:items-center [&_span]:text-2xl"
+      [&>div]:flex [&>div]:flex-col [&>div]:items-center "
           >
             <div>
               <h4>Total visits</h4>
-              <span>
+              <p className="text-2xl">
                 <strong>{visitedCities.length}</strong>
-              </span>
+              </p>
             </div>
             <div>
               <h4>Most visited city</h4>
-              <span>
-                <strong>Berlin</strong>
-              </span>
+              {mostVisitedCity.max > 1 ? (
+                <p className="text-2xl">
+                  <strong>{mostVisitedCity.city}</strong>
+                </p>
+              ) : (
+                <div className="[&_p]:text-xs">
+                  <Message message="Visit a city at least twice to view stat."></Message>
+                </div>
+              )}
             </div>
           </div>
         </>

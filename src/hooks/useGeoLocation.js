@@ -20,6 +20,6 @@ export const useGeoLocation = () => {
       }
     );
   };
-  console.log(isLoading);
+
   return { myPosition, error, getUserGeoLocation, isLoading };
 };
