@@ -1,8 +1,9 @@
+import { BounceLoader } from "react-spinners";
 import { FaArrowLeft } from "react-icons/fa";
-import {  useNavigate, useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { Button } from "./Button";
 import { useQueryString } from "../hooks/useQueryString";
-import {  useState } from "react";
+import { useState } from "react";
 import { BottomSheet } from "./BottomSheet";
 import { Form } from "./Form";
 import { useCities } from "../hooks/useCities";
@@ -42,11 +43,11 @@ export const CityDetails = () => {
     city = state ?? city_district ?? county ?? region,
   } = cityInfo?.address || {};
 
-  const { data: aboutCity } = useFetch(
+  const { data: aboutCity, isLoading: isAboutLoading } = useFetch(
     city && `${WIKIPEDIA_BASE_URL}/page/summary/${city}`
   );
-  
-  const { data: cityImage } = useFetch(
+
+  const { data: cityImage, isLoading: isImgLoading } = useFetch(
     city && `${PEXELS_BASE_URL}/search?query=${city}`,
     pexelsApiToken
   );
@@ -55,7 +56,7 @@ export const CityDetails = () => {
     src: { original: imgSrc } = {},
     photographer,
     photographer_url,
-  } = cityImage?.photos[Math.floor(Math.random() * 3) + 1] || {};
+  } = cityImage?.photos[1] || {};
 
   // Read from global State and use as a fallback City image
   const { imgUrl } = visitedCities.find((city) => city.id === id) ?? {};
@@ -65,40 +66,68 @@ export const CityDetails = () => {
 
   const countryFlag = getCountrFlag(country_code);
 
-  return (
-    <section className="h-screen text-white relative overflow-y-hidden">
-      <CityDetailsHero imgUrl={imgUrl} imgSrc={imgSrc} cityImage={cityImage}>
-        <PhotoAttribution
-          PhotoGraperName={photographer}
-          photoGrapherUrl={photographer_url}
-        />
-      </CityDetailsHero>
+  if (isLoading || isImgLoading || isAboutLoading)
+    return (
+      <div className="flex items-center justify-center h-screen">
+        <div className="flex flex-col items-center gap-2 justify-center">
+          <BounceLoader />
+          <Message message="Fetching city details..." />
+        </div>
+      </div>
+    );
 
-      <BottomSheet>
-        {!isOpen && (
-          <CityDetailsContent
-            isVisited={isVisited}
-            countryName={countryName}
-            cityName={city}
-            aboutCity={aboutCity?.description}
-            countryFlag={countryFlag}
-            id={id}
-            setIsOpen={setIsOpen}
-          />
-        )}
-        {isOpen && (
-          <Form
-            setIsOpen={setIsOpen}
-            cityName={city}
-            emoji={countryFlag}
-            imgUrl={imgSrc}
-            country={{ country_name: countryName, country_code: country_code }}
-            id={id}
-            about={aboutCity?.description}
-          />
-        )}
-      </BottomSheet>
-    </section>
+  if (!cityInfo && lat && lon)
+    return (
+      <Message message="This location does'nt correspond to a city. Please choose a valid city location" />
+    );
+
+  return (
+    <>
+      {!isLoading && !isImgLoading && !isAboutLoading && (
+        <section className="h-screen text-white relative overflow-y-hidden">
+          <CityDetailsHero
+            imgUrl={imgUrl}
+            imgSrc={imgSrc}
+            cityImage={cityImage}
+            isLoading={isImgLoading}
+          >
+            <PhotoAttribution
+              PhotoGraperName={photographer}
+              photoGrapherUrl={photographer_url}
+            />
+          </CityDetailsHero>
+
+          <BottomSheet>
+            {!isOpen && (
+              <CityDetailsContent
+                isVisited={isVisited}
+                countryName={countryName}
+                cityName={city}
+                aboutCity={aboutCity?.description}
+                countryFlag={countryFlag}
+                id={id}
+                setIsOpen={setIsOpen}
+                isLoading={isAboutLoading}
+              />
+            )}
+            {isOpen && (
+              <Form
+                setIsOpen={setIsOpen}
+                cityName={city}
+                emoji={countryFlag}
+                imgUrl={imgSrc}
+                country={{
+                  country_name: countryName,
+                  country_code: country_code,
+                }}
+                id={id}
+                about={aboutCity?.description}
+              />
+            )}
+          </BottomSheet>
+        </section>
+      )}
+    </>
   );
 };
 
@@ -123,6 +152,7 @@ const CityDetailsContent = ({
   } = visitedCities.find((city) => city.id === id) ?? {};
 
   const aboutCityToUse = aboutCity || about;
+
   return (
     <>
       <header className="relative">
@@ -137,6 +167,7 @@ const CityDetailsContent = ({
           styles="absolute top-2 right-0 rounded-sm w-[40px]"
         />
       </header>
+
       <div className="mt-5 mb-3 [&_p]:text-left">
         <h2 className=" mb-1">ABOUT</h2>
         {!aboutCityToUse ? (
@@ -145,6 +176,7 @@ const CityDetailsContent = ({
           <p className="text-sm text-gray-700">{aboutCityToUse}</p>
         )}
       </div>
+
       <div>
         <h2 className=" mb-4 font-inter">HIGHTLIGHT</h2>
       </div>
@@ -172,32 +204,33 @@ const CityDetailsContent = ({
 const CityDetailsHero = ({ imgSrc, imgUrl, children }) => {
   const navigate = useNavigate();
   const imageToUse = imgSrc || imgUrl;
+
   return (
-    <>
-      <div
-        className="h-[50%] relative [&_p]:text-white"
-        style={{
-          background: `${
-            imageToUse
-              ? `url(${imageToUse}) center/cover`
-              : "linear-gradient(to top, #3b82f6, #ef4444)"
-          }`,
-        }}
+    <div
+      className="h-[50%] relative [&_p]:text-white"
+      style={{
+        background: `${
+          imageToUse
+            ? `url(${imageToUse}) center/cover`
+            : "linear-gradient(to top, #3b82f6, #ef4444)"
+        }`,
+      }}
+    >
+      <Button
+        styles="p-3 cursor-pointer  rounded-full ml-3 absolute top-10 "
+        onClick={() => navigate(-1)}
       >
-        <Button
-          styles="p-3 cursor-pointer  rounded-full ml-3 absolute top-10 "
-          onClick={() => navigate(-1)}
-        >
-          <FaArrowLeft />
-        </Button>
-        {!imgSrc && !imgUrl && (
-          <Message
-            message="No image available for this location"
-            centerMessage={true}
-          />
-        )}
-        {children}
-      </div>
-    </>
+        <FaArrowLeft />
+      </Button>
+
+      {!imageToUse && (
+        <Message
+          message={"No image available for this location"}
+          centerMessage={true}
+        />
+      )}
+
+      {children}
+    </div>
   );
 };

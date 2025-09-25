@@ -7,7 +7,7 @@ export const useFetch = (
   dataToFetch = []
 ) => {
   const [isLoading, setIsLoading] = useState(false);
-  const [error, setEror] = useState(null);
+  const [error, setError] = useState(null);
   const [data, setData] = useState(null);
 
   useEffect(() => {
@@ -50,7 +50,7 @@ export const useFetch = (
         setData(data);
 
       } catch (error) {
-        setEror(error);
+        setError(error);
       } finally {
         setIsLoading(false);
       }
@@ -59,3 +59,4 @@ export const useFetch = (
   }, [url]);
   return { data, isLoading, error };
 };
+
