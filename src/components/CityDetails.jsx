@@ -1,8 +1,8 @@
 import { FaArrowLeft } from "react-icons/fa";
-import { useNavigate, useParams } from "react-router-dom";
+import {  useNavigate, useParams } from "react-router-dom";
 import { Button } from "./Button";
 import { useQueryString } from "../hooks/useQueryString";
-import { useEffect, useState } from "react";
+import {  useState } from "react";
 import { BottomSheet } from "./BottomSheet";
 import { Form } from "./Form";
 import { useCities } from "../hooks/useCities";
@@ -17,22 +17,20 @@ import {
   WIKIPEDIA_BASE_URL,
 } from "../config/apiconfig";
 import { getCountrFlag } from "../utils/getFlag";
-
+import { useFetch } from "../hooks/useFetch";
 
 export const CityDetails = () => {
   const { id } = useParams();
   const [lat, lon] = useQueryString();
   const { visitedCities } = useCities();
-  const [cityInfo, setCityInfo] = useState(null);
-  const [aboutCity, setAboutCity] = useState(null);
-  const [cityImage, setCityImage] = useState(null);
+  const { data: cityInfo, isLoading } = useFetch(
+    lat &&
+      lon &&
+      `${LOCATIONIQ_BASE_URL}/reverse?key=${locationIqApiToken}&lat=${lat}&lon=${lon}&format=json&`
+  );
+
   const [isOpen, setIsOpen] = useState(false);
-  const {
-    src: { original: imgSrc } = {},
-    photographer,
-    photographer_url,
-  } = cityImage || {};
-console.log(cityInfo)
+
   // Default City Details from an Api data from LocationIQ
   const {
     country: countryName,
@@ -42,8 +40,23 @@ console.log(cityInfo)
     county,
     region,
     city = state ?? city_district ?? county ?? region,
-  } = cityInfo || {};
+  } = cityInfo?.address || {};
+
+  const { data: aboutCity } = useFetch(
+    city && `${WIKIPEDIA_BASE_URL}/page/summary/${city}`
+  );
   
+  const { data: cityImage } = useFetch(
+    city && `${PEXELS_BASE_URL}/search?query=${city}`,
+    pexelsApiToken
+  );
+
+  const {
+    src: { original: imgSrc } = {},
+    photographer,
+    photographer_url,
+  } = cityImage?.photos[Math.floor(Math.random() * 3) + 1] || {};
+
   // Read from global State and use as a fallback City image
   const { imgUrl } = visitedCities.find((city) => city.id === id) ?? {};
 
@@ -52,41 +65,6 @@ console.log(cityInfo)
 
   const countryFlag = getCountrFlag(country_code);
 
-  // Fetch a city using reverse geocoding API with city coordinates(lat and lon) from LocationIQ
-  useEffect(() => {
-    async function getCity() {
-      if (!lon && !lat) return;
-      const res = await fetch(
-        `${LOCATIONIQ_BASE_URL}/reverse?key=${locationIqApiToken}&lat=${lat}&lon=${lon}&format=json&`
-      );
-      const { address } = await res.json();
-      setCityInfo(address);
-    }
-    getCity();
-  }, [lat, lon, city]);
-
-  // Fetch city image from unsplash and about the city from wikipedia
-  useEffect(() => {
-    if (!city) return;
-    const URLs = [
-      `${WIKIPEDIA_BASE_URL}/page/summary/${city}`,
-      `${PEXELS_BASE_URL}/search?query=${city}`,
-    ];
-    async function getMoreCityInfo() {
-      const [res1, res2] = await Promise.all([
-        fetch(URLs[0]),
-        fetch(URLs[1], {
-          headers: {
-            Authorization: pexelsApiToken,
-          },
-        }),
-      ]);
-      const [data1, data2] = await Promise.all([res1.json(), res2.json()]);
-      setAboutCity(data1?.description);
-      setCityImage(data2?.photos[Math.floor(Math.random() * 3) + 1]);
-    }
-    getMoreCityInfo();
-  }, [city]);
   return (
     <section className="h-screen text-white relative overflow-y-hidden">
       <CityDetailsHero imgUrl={imgUrl} imgSrc={imgSrc} cityImage={cityImage}>
@@ -102,7 +80,7 @@ console.log(cityInfo)
             isVisited={isVisited}
             countryName={countryName}
             cityName={city}
-            aboutCity={aboutCity}
+            aboutCity={aboutCity?.description}
             countryFlag={countryFlag}
             id={id}
             setIsOpen={setIsOpen}
@@ -114,9 +92,9 @@ console.log(cityInfo)
             cityName={city}
             emoji={countryFlag}
             imgUrl={imgSrc}
-            country={{country_name : countryName, country_code : country_code}}
+            country={{ country_name: countryName, country_code: country_code }}
             id={id}
-            about={aboutCity}
+            about={aboutCity?.description}
           />
         )}
       </BottomSheet>
@@ -151,7 +129,9 @@ const CityDetailsContent = ({
         <h1 className="text-2xl  font-bold max-w-[300px] ">
           {cityName ?? visitedCityName}
         </h1>
-        <p className="text-sm">{countryName ?? visitedCountryName?.country_name}</p>
+        <p className="text-sm">
+          {countryName ?? visitedCountryName?.country_name}
+        </p>
         <CountryFlag
           src={emoji || countryFlag}
           styles="absolute top-2 right-0 rounded-sm w-[40px]"
@@ -179,16 +159,12 @@ const CityDetailsContent = ({
         </div>
       </div>
       <div className="[&>button]:rounded-full [&>button]:min-w-[100%]">
-       {!isVisited ? (
-          <Button
-            onClick={() => setIsOpen((p) => !p)}
-          >
-            Save visit
-          </Button>
+        {!isVisited ? (
+          <Button onClick={() => setIsOpen((p) => !p)}>Save visit</Button>
         ) : (
           <Button>Visited</Button>
         )}
-        </div>
+      </div>
     </>
   );
 };

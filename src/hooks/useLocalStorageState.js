@@ -20,5 +20,16 @@ export const useLocalStorageState = (
       localStorage.setItem(key, JSON.stringify(state));
     }
   }, [key, render, state]);
-  return render ? [state, setState] : []
+  const set = (value) => {
+    const finalValue =
+      typeof value === "function" ? value(render ? state : refValue) : refValue;
+    if (!render) {
+      localStorage.setItem(key, JSON.stringify(refValue.current));
+      refValue.current = finalValue;
+    } else {
+      setState(finalValue);
+    }
+  };
+  return render ? [state, setState] : [refValue, set];
 };
+  

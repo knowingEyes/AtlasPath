@@ -10,7 +10,6 @@ import {
   Legend,
 } from "chart.js";
 import { Message } from "./Message";
-import { useState } from "react";
 ChartJS.register(
   CategoryScale,
   LinearScale,
