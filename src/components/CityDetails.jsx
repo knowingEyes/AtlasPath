@@ -78,7 +78,12 @@ export const CityDetails = () => {
 
   if (!cityInfo && lat && lon)
     return (
-      <Message message="This location does'nt correspond to a city. Please choose a valid city location" />
+      <div className="h-screen">
+        <Message
+          message="This location doesn't correspond to a city. Please choose a valid city location"
+          centerMessage={true}
+        />
+      </div>
     );
 
   return (
