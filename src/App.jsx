@@ -1,4 +1,4 @@
-import {  Navigate, Route, Routes } from "react-router-dom";
+import { Navigate, Route, Routes } from "react-router-dom";
 import { Layout } from "./components/Layout";
 import { Discover } from "./pages/Discover";
 import { HomePage } from "./pages/HomePage";
@@ -9,12 +9,14 @@ import { CityDetails } from "./pages/CityDetails";
 import { CitiesProvider } from "./contexts/CitiesContext";
 import { Stats } from "./pages/Stats";
 import { LandingPage } from "./pages/LandingPage";
+import { Welcome } from "./pages/WelcomePage";
 
 function App() {
   return (
     <CitiesProvider>
       <Routes>
-        <Route path="/" element={<LandingPage/>}/>
+        <Route path="/" element={<LandingPage />} />
+         <Route path="welcome" element={<Welcome />} />
         <Route path="app" element={<Layout />}>
           <Route index element={<Navigate to="homepage" replace />} />
           <Route path="homepage" element={<HomePage />}>
