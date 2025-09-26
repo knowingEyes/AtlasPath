@@ -1,5 +1,4 @@
 import { PEXELS_BASE_URL } from "../config/apiconfig";
-import { Countries } from "./Countries";
 
 export const PhotoAttribution = ({ PhotoGraperName, photoGrapherUrl }) => {
   if (PhotoGraperName && photoGrapherUrl)

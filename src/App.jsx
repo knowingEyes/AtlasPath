@@ -1,19 +1,21 @@
 import {  Navigate, Route, Routes } from "react-router-dom";
 import { Layout } from "./components/Layout";
-import { Discover } from "./components/Discover";
-import { HomePage } from "./components/HomePage";
-import Map from "./components/Map";
-import { Cities } from "./components/Cities";
-import { Countries } from "./components/Countries";
-import { CityDetails } from "./components/CityDetails";
+import { Discover } from "./pages/Discover";
+import { HomePage } from "./pages/HomePage";
+import Map from "./pages/Map";
+import { Cities } from "./pages/Cities";
+import { Countries } from "./pages/Countries";
+import { CityDetails } from "./pages/CityDetails";
 import { CitiesProvider } from "./contexts/CitiesContext";
-import { Stats } from "./components/Stats";
+import { Stats } from "./pages/Stats";
+import { LandingPage } from "./pages/LandingPage";
 
 function App() {
   return (
     <CitiesProvider>
       <Routes>
-        <Route path="/" element={<Layout />}>
+        <Route path="/" element={<LandingPage/>}/>
+        <Route path="app" element={<Layout />}>
           <Route index element={<Navigate to="homepage" replace />} />
           <Route path="homepage" element={<HomePage />}>
             <Route index element={<Navigate to="cities" replace />} />
