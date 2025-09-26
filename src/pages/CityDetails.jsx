@@ -1,15 +1,15 @@
 import { BounceLoader } from "react-spinners";
 import { FaArrowLeft } from "react-icons/fa";
 import { useNavigate, useParams } from "react-router-dom";
-import { Button } from "./Button";
+import { Button } from "../components/Button";
 import { useQueryString } from "../hooks/useQueryString";
 import { useState } from "react";
-import { BottomSheet } from "./BottomSheet";
-import { Form } from "./Form";
+import { BottomSheet } from "../components/BottomSheet";
+import { Form } from "../components/Form";
 import { useCities } from "../hooks/useCities";
-import { Message } from "./Message";
-import { CountryFlag } from "./CountryFlag";
-import { PhotoAttribution } from "./PhotoAttribution";
+import { Message } from "../components/Message";
+import { CountryFlag } from "../components/CountryFlag";
+import { PhotoAttribution } from "../components/PhotoAttribution";
 import {
   LOCATIONIQ_BASE_URL,
   locationIqApiToken,

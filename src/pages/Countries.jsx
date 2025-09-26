@@ -1,7 +1,7 @@
 import { useEffect } from "react";
 import { useCities } from "../hooks/useCities";
-import { CountriesItems } from "./CountriesItems";
-import { Message } from "./Message";
+import { CountriesItems } from "../components/CountriesItems";
+import { Message } from "../components/Message";
 import { PEXELS_BASE_URL, pexelsApiToken } from "../config/apiconfig";
 import { getCountrFlag } from "../utils/getFlag";
 import { useLocalStorageState } from "../hooks/useLocalStorageState";
@@ -45,7 +45,7 @@ export const Countries = () => {
     }, []);
 
     if (!imgSrcAndAtrribute) return;
-    
+
     setCountriesImages(imgSrcAndAtrribute);
   }, [data]);
 

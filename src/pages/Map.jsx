@@ -12,15 +12,14 @@ import { useEffect, useState } from "react";
 import { useQueryString } from "../hooks/useQueryString";
 import { useCities } from "../hooks/useCities";
 import { useGeoLocation } from "../hooks/useGeoLocation";
-import { Button } from "./Button";
+import { Button } from "../components/Button";
 
 //Create custom marker
 const customIcon = new L.Icon({
   iconUrl: "https://cdn-icons-png.flaticon.com/512/684/684908.png",
   iconSize: [32, 32],
-  iconAnchor : [16,32],
-  popupAnchor: [0, -32]
-
+  iconAnchor: [16, 32],
+  popupAnchor: [0, -32],
 });
 const Map = () => {
   const { myPosition, error, getUserGeoLocation, isLoading } = useGeoLocation();
@@ -47,7 +46,7 @@ const Map = () => {
           url="https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}.png"
         />
         {visitedCities.map(({ lat, lon, cityName, emoji, id }) => (
-          <Marker position={[lat, lon]} key={id} icon={customIcon} >
+          <Marker position={[lat, lon]} key={id} icon={customIcon}>
             <Popup>
               <div className="text-center flex flex-col items-center justify-center">
                 <img src={emoji} alt="" className="w-5 mb-1" />
@@ -56,13 +55,15 @@ const Map = () => {
             </Popup>
           </Marker>
         ))}
-        {myPosition && <Marker position={myPosition} icon={customIcon} ></Marker>}
+        {myPosition && (
+          <Marker position={myPosition} icon={customIcon}></Marker>
+        )}
         <SetView position={positionToUse} myPosition={myPosition} />
         <DetectClick />
       </MapContainer>
       {!myPosition && (
         <Button
-        gradient={false}
+          gradient={false}
           onClick={() => {
             getUserGeoLocation();
             if (error)

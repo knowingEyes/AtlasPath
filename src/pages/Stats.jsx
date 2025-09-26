@@ -9,7 +9,7 @@ import {
   Tooltip,
   Legend,
 } from "chart.js";
-import { Message } from "./Message";
+import { Message } from "../components/Message";
 ChartJS.register(
   CategoryScale,
   LinearScale,

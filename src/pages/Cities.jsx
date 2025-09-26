@@ -1,7 +1,6 @@
-
 import { useCities } from "../hooks/useCities";
-import { CitiesItems } from "./CitiesItems";
-import { Message } from "./Message";
+import { CitiesItems } from "../components/CitiesItems";
+import { Message } from "../components/Message";
 
 export const Cities = () => {
   const { visitedCities } = useCities();
