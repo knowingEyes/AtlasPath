@@ -42,8 +42,8 @@ export const CitiesItems = ({
         >
           📍 Map
         </Button>
-        <div className="bg-gradient-to-t from-10% from-[#0e0e0e]/75 to-30% to-transparent absolute inset-0"></div>
-        <div className="absolute bottom-5">
+        <div className="bg-gradient-to-t from-10% from-[#0e0e0e]/75 to-30% to-transparent absolute inset-0 "></div>
+        <div className="absolute bottom-5 z-2">
           <div className="flex items-center space-x-2">
             <h1 className="font-bold text-2xl  max-w-[300px]">{cityName}</h1>{" "}
             <CountryFlag src={emoji} styles=" w-[20px]" />

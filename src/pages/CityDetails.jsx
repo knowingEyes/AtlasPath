@@ -195,7 +195,7 @@ const CityDetailsContent = ({
           )}
         </div>
       </div>
-      <div className="[&>button]:rounded-full [&>button]:min-w-[100%]">
+      <div className="[&>button]:rounded-full [&>button]:min-w-[100%] text-white">
         {!isVisited ? (
           <Button onClick={() => setIsOpen((p) => !p)}>Save visit</Button>
         ) : (
