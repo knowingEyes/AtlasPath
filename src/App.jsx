@@ -12,6 +12,8 @@ import { LandingPage } from "./pages/LandingPage";
 import { Welcome } from "./pages/WelcomePage";
 import { ProtectedRoute } from "./utils/ProtectedRoute";
 import { IsNewProvider } from "./contexts/IsNewContext";
+import { Gallery } from "./pages/Gallery";
+import { Blog } from "./pages/Blog";
 
 function App() {
   return (
@@ -29,7 +31,11 @@ function App() {
                 <Route path="countries" element={<Countries />} />
               </Route>
               <Route path="map" element={<Map />} />
-              <Route path="discover" element={<Discover />} />
+              <Route path="discover" element={<Discover />} >
+              <Route index element={<Navigate to="gallery"/>}/>
+              <Route path="gallery" element={<Gallery/>}/>
+              <Route path="blog" element={<Blog/>}/>
+              </Route>
               <Route path="stats" element={<Stats />} />
             </Route>
           </Route>

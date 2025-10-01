@@ -29,7 +29,7 @@ export const useFetch = (
                 )
               )
             : fetch(url);
-
+ 
         const res = await fetchType;
          
         /* Check if response is an array then loop to get access to the res .ok obeject
@@ -46,7 +46,6 @@ export const useFetch = (
           type === "normal"
             ? await res.json()
             : await Promise.all(res.map((res) => res.json()));
-
         setData(data);
 
       } catch (error) {
