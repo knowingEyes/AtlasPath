@@ -1,9 +1,11 @@
-import { useNavigate } from "react-router-dom";
+import {  useNavigate } from "react-router-dom";
 import { Button } from "../components/Button";
 import backgroundImage from "../../public/timo-wagner-fT6-YkB0nfg-unsplash.jpg";
+import { useIsNew } from "../hooks/useIsNew";
 export const Welcome = () => {
-  // const [isNew, setIsNew] = useState()
   const navigate = useNavigate();
+const {setIsNew} = useIsNew()
+// console.log(setIsNew)
   return (
     <section
       style={{ background: `url(${backgroundImage}) center/cover ` }}
@@ -26,7 +28,11 @@ export const Welcome = () => {
 
         <Button
         gradient={false}
-          onClick={() => navigate("/app")}
+          onClick={() => {
+            setIsNew(false)
+            navigate("/app")
+          }
+          }
           styles="mt-30 font-semibold px-10 text-[1rem] rounded bg-white text-black"
         >
           Start

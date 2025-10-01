@@ -11,7 +11,7 @@ function reducer(state, action) {
     default:
       break;
   }
-}
+} 
 
 const CitiesProvider = ({ children }) => {
   const [state, dispatch] = useReducer(reducer, initialValue);

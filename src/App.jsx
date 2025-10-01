@@ -10,31 +10,37 @@ import { CitiesProvider } from "./contexts/CitiesContext";
 import { Stats } from "./pages/Stats";
 import { LandingPage } from "./pages/LandingPage";
 import { Welcome } from "./pages/WelcomePage";
+import { ProtectedRoute } from "./utils/ProtectedRoute";
+import { IsNewProvider } from "./contexts/IsNewContext";
 
 function App() {
   return (
-    <CitiesProvider>
-      <Routes>
-        <Route path="/" element={<LandingPage />} />
-         <Route path="welcome" element={<Welcome />} />
-        <Route path="app" element={<Layout />}>
-          <Route index element={<Navigate to="homepage" replace />} />
-          <Route path="homepage" element={<HomePage />}>
-            <Route index element={<Navigate to="cities" replace />} />
-            <Route path="cities" element={<Cities />} />
-            <Route path="countries" element={<Countries />} />
+    <IsNewProvider>
+      <CitiesProvider>
+        <Routes>
+          <Route path="/" element={<LandingPage />} />
+          <Route path="welcome" element={<Welcome />} />
+          <Route element={<ProtectedRoute />}>
+            <Route path="app" element={<Layout />}>
+              <Route index element={<Navigate to="homepage" replace />} />
+              <Route path="homepage" element={<HomePage />}>
+                <Route index element={<Navigate to="cities" replace />} />
+                <Route path="cities" element={<Cities />} />
+                <Route path="countries" element={<Countries />} />
+              </Route>
+              <Route path="map" element={<Map />} />
+              <Route path="discover" element={<Discover />} />
+              <Route path="stats" element={<Stats />} />
+            </Route>
           </Route>
-          <Route path="map" element={<Map />} />
-          <Route path="discover" element={<Discover />} />
-          <Route path="stats" element={<Stats />} />
-        </Route>
-        <Route path="cities/:id" element={<CityDetails />} />
-        <Route
-          path="*"
-          element={<p className="text-2xl text-center">page not found :(</p>}
-        />
-      </Routes>
-    </CitiesProvider>
+          <Route path="cities/:id" element={<CityDetails />} />
+          <Route
+            path="*"
+            element={<p className="text-2xl text-center">page not found :(</p>}
+          />
+        </Routes>
+      </CitiesProvider>
+    </IsNewProvider>
   );
 }
 
