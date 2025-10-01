@@ -8,9 +8,9 @@ export const CountriesItems = ({
   flag
 }) => {
   return (
-    <li className="mb-4">
+    <li className="mb-4 overflow-hidden shadow-xl rounded-[20px]">
       <div
-        className="relative w-full  h-100 rounded-[20px] p-4 overflow-hidden shadow-xl"
+        className="relative w-full h-100 p-4"
         style={{ background: `url(${img}) center/cover ` }}
       >
         <PhotoAttribution

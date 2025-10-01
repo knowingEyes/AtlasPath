@@ -24,12 +24,12 @@ export const CityDetails = () => {
   const { id } = useParams();
   const [lat, lon] = useQueryString();
   const { visitedCities } = useCities();
-  const { data: cityInfo, isLoading } = useFetch(
+  const { data: cityInfo, isLoading,error } = useFetch(
     lat &&
       lon &&
       `${LOCATIONIQ_BASE_URL}/reverse?key=${locationIqApiToken}&lat=${lat}&lon=${lon}&format=json&`
   );
-
+console.log(error)
   const [isOpen, setIsOpen] = useState(false);
 
   // Default City Details from an Api data from LocationIQ

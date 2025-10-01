@@ -6,6 +6,7 @@ import { PEXELS_BASE_URL, pexelsApiToken } from "../config/apiconfig";
 import { getCountrFlag } from "../utils/getFlag";
 import { useLocalStorageState } from "../hooks/useLocalStorageState";
 import { useFetch } from "../hooks/useFetch";
+import { getAttrribution } from "../utils/getAttribution";
 
 export const Countries = () => {
   const { visitedCities, countriesVisited } = useCities();
@@ -27,20 +28,13 @@ export const Countries = () => {
    url and name using the fetched countries images data */
   useEffect(() => {
     if (!data) return;
-    const imgSrcAndAtrribute = data.reduce((acc, { photos = {} }, index) => {
+    const imgSrcAndAtrribute = data.reduce((acc, photos, index) => {
       const countriesCodes = countriesVisited.map(({ code }) => code); // Countries code.
       const flag = getCountrFlag(countriesCodes[index]); // Get countries flags using the countries code and index of the countries.
 
       //create the countries object
-      acc = [
-        ...acc,
-        {
-          img: photos[0].src.original,
-          photographer_url: photos[0].photographer_url,
-          photographer: photos[0].photographer,
-          flag,
-        },
-      ];
+      acc = getAttrribution(acc, photos, 1, flag);
+      
       return acc;
     }, []);
 

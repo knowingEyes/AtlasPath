@@ -36,7 +36,7 @@ export const useFetch = (
         and throw error if res is false for either mapped res or unmapped res*/
         if (Array.isArray(res)) {
           res.map((res) => {
-            if (!res.ok) throw new Error("Error bad request", res.status);
+            if (!res.ok) throw new Error(`Error bad request", ${res.status}`);
           });
         } else if (!res.ok) throw new Error("Error bad request", res.status);
 

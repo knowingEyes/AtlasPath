@@ -71,7 +71,7 @@ export const Form = ({ setIsOpen, ...options }) => {
         onChange={(e) => setNote(e.target.value)}
         required
       ></textarea>
-      <Button styles="px-5 rounded-md py-1 mt-4">Add</Button>
+      <Button styles="px-5 rounded-md py-1 mt-4 text-white">Add</Button>
     </form>
   );
 };
