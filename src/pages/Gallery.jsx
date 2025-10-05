@@ -27,11 +27,11 @@ const cities = [
 ];
 
 export const Gallery = () => {
-    const { data } = useFetch(PEXELS_BASE_URL, pexelsApiToken, "promise", cities);
-   
+  const { data } = useFetch(PEXELS_BASE_URL, pexelsApiToken, "promise", cities);
+
   if (!data) return;
 
-  // create the countries object
+  // create the image atttribution object
   const imgSrcAndAtrribute = data.reduce(
     (acc, photos) => (acc = getAttrribution(acc, photos, 5)),
     []

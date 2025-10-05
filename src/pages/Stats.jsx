@@ -67,9 +67,12 @@ export const Stats = () => {
       },
     ],
   };
+  if(!visitedCities.length) return <Message
+          message="Visit a city to see your stats."
+          type="fullscreen"
+        />
   return (
     <section className="h-screen p-4 flex flex-col  justify-center">
-      {visitedCities.length ? (
         <>
           <h1 className="text-2xl text-center font-semibold m-3">
             Most visited cities per country
@@ -120,12 +123,6 @@ export const Stats = () => {
             </div>
           </div>
         </>
-      ) : (
-        <Message
-          message="Visit a city to see your stats."
-          centerMessage={true}
-        />
-      )}
     </section>
   );
 };

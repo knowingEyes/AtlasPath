@@ -1,5 +1,26 @@
-export const Message = ({message, centerMessage = false}) => {
+export const Message = ({ message, type = "normal", children }) => {
   return (
-    <div className={`${centerMessage && "absolute inset-0 m-auto h-max "}`}><p className="text-center text-black" >{message}</p></div>
-  )
-}
+    <>
+      {type === "normal" && <p>{message}</p>}
+
+      {type === "fullscreen" && (
+        <div className="h-screen  p-5 flex items-center justify-center text-center">
+          <div
+            className={`${
+              children && "flex flex-col items-center gap-2 justify-center"
+            }`}
+          >
+            {children}
+            <p>{message}</p>
+          </div>
+        </div>
+      )}
+
+      {type === "absolute" && (
+        <div className="absolute inset-0 text-center h-max m-auto">
+          <p>{message}</p>
+        </div>
+      )}
+    </>
+  );
+};

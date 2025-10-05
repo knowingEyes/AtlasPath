@@ -1,4 +1,4 @@
- import { useCities } from "../hooks/useCities";
+import { useCities } from "../hooks/useCities";
 import { CitiesItems } from "../components/CitiesItems";
 import { Message } from "../components/Message";
 
@@ -8,7 +8,7 @@ export const Cities = () => {
     return (
       <Message
         message="No cities to display. Start exploring!"
-        centerMessage={true}
+        type="absolute"
       />
     );
   return (

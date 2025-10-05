@@ -47,7 +47,7 @@ export const Countries = () => {
     return (
       <Message
         message="No countries to display. Start exploring!"
-        centerMessage={true}
+        centerMessage={{fullscreen: false}}
       />
     );
   return (

@@ -24,12 +24,16 @@ export const CityDetails = () => {
   const { id } = useParams();
   const [lat, lon] = useQueryString();
   const { visitedCities } = useCities();
-  const { data: cityInfo, isLoading,error } = useFetch(
+  const {
+    data: cityInfo,
+    isLoading,
+    error,
+  } = useFetch(
     lat &&
       lon &&
       `${LOCATIONIQ_BASE_URL}/reverse?key=${locationIqApiToken}&lat=${lat}&lon=${lon}&format=json&`
   );
-console.log(error)
+
   const [isOpen, setIsOpen] = useState(false);
 
   // Default City Details from an Api data from LocationIQ
@@ -66,14 +70,22 @@ console.log(error)
 
   const countryFlag = getCountrFlag(country_code);
 
+  if (error?.message === "Failed to fetch")
+    return (
+      <Message
+        message="We can't load new cities right now - check your connection and try again."
+        type="fullscreen"
+      />
+    );
+
   if (isLoading || isImgLoading || isAboutLoading)
     return (
-      <div className="flex items-center justify-center h-screen">
-        <div className="flex flex-col items-center gap-2 justify-center">
-          <BounceLoader />
-          <Message message="Fetching city details..." />
-        </div>
-      </div>
+      <Message
+        message="Fetching city details..."
+        type="fullscreen"
+      >
+        <BounceLoader />
+      </Message>
     );
 
   if (!cityInfo && lat && lon)
@@ -81,7 +93,7 @@ console.log(error)
       <div className="h-screen">
         <Message
           message="This location doesn't correspond to a city. Please choose a valid city location"
-          centerMessage={true}
+          type="fullscreen"
         />
       </div>
     );
@@ -231,7 +243,7 @@ const CityDetailsHero = ({ imgSrc, imgUrl, children }) => {
       {!imageToUse && (
         <Message
           message={"No image available for this location"}
-          centerMessage={true}
+          type="absolute"
         />
       )}
 
