@@ -1,4 +1,4 @@
-import backgroundImage from "../../public/masood-aslami-35vD8GskqlM-unsplash.jpg";
+
 export const GalleryItems = ({ imgUrl, cityName, photoGrapher, photoGrapherUrl }) => {
   return (
     <li className="rounded-xl overflow-hidden shadow-md">

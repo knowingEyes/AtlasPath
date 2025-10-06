@@ -41,13 +41,13 @@ export const Countries = () => {
     if (!imgSrcAndAtrribute) return;
 
     setCountriesImages(imgSrcAndAtrribute);
-  }, [data]);
+  }, [data, countriesVisited]);
 
   if (!visitedCities.length)
     return (
       <Message
         message="No countries to display. Start exploring!"
-        centerMessage={{fullscreen: false}}
+        type="absolute"
       />
     );
   return (

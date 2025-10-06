@@ -2,18 +2,23 @@
 @import "leaflet/dist/leaflet.css";
 @import "react-datepicker/dist/react-datepicker.css";
 
+@theme {
+  --font-Inter: 'Inter';
+  --font-Poppins: "Poppins";
+  --font-Vibes: "Great Vibes";
+
+}
+
+
 body {
-  @apply font-["Inter"] relative ;
+  @apply font-Inter relative ;
 }
 h1,
 h2,
 h2 {
-  @apply font-["Poppins"];
+  @apply font-Poppins;
 }
 .leaflet-popup-content-wrapper, .leaflet-popup-tip  {
-@apply font-["Poppins"] text-[11px] bg-[#121212] text-[#fff];  
+   @apply font-Poppins text-[11px] bg-[#121212] text-[#fff];  
 }
 
-h6 {
-  font-family: "Great Vibes";
-}
