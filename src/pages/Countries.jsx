@@ -33,7 +33,7 @@ export const Countries = () => {
       const flag = getCountrFlag(countriesCodes[index]); // Get countries flags using the countries code and index of the countries.
 
       //create the countries object
-      acc = getAttrribution(acc, photos, 1, flag);
+      acc = getAttrribution(acc, photos, 1, {flag, name: 0});
       
       return acc;
     }, []);

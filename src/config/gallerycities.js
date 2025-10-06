@@ -18,6 +18,7 @@ export const cities = [
   "Mexico City",
   "Toronto",
   "Istanbul",
-  "Bangkok",
-  "England"
+  "Seoul",
+  "Mumbai",
+  "Lisbon"
 ];

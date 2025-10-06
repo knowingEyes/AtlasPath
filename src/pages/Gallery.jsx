@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef} from "react";
 import { GalleryItems } from "../components/GalleryItems";
 import { GallerySkelton } from "../components/GallerySkeleton";
 import { PEXELS_BASE_URL, pexelsApiToken } from "../config/apiconfig";
@@ -11,8 +11,10 @@ import { cities } from "../config/gallerycities";
 
 export const Gallery = () => {
 const [galleryImages, setGalleryImages] = useLocalStorageState([],'galleryImage')
+  const previousCitiesLength = useRef(cities.length)
+  const shouldFetch = previousCitiesLength.current > galleryImages.length ||  previousCitiesLength.current < galleryImages.length 
 
-  const { data, isLoading } = useFetch(!galleryImages.length &&
+  const { data, isLoading } = useFetch(shouldFetch &&
     PEXELS_BASE_URL,
     pexelsApiToken,
     "promise",

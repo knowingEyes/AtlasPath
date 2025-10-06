@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 
 export const useFetch = (
   url = null,
@@ -9,7 +9,7 @@ export const useFetch = (
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState(null);
   const [data, setData] = useState(null);
-console.log(url, token,type, dataToFetch)
+
   useEffect(() => {
     if (!url) return;
     const fetchData = async () => {
