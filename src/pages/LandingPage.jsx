@@ -15,7 +15,7 @@ export const LandingPage = () => {
       <Button
         onClick={() => navigate("app")}
         gradient={false}
-        styles=" rounded-lg py-3 px-5 bottom-20 mx-auto absolute -translate-x-[50%] left-[50%]  bg-anime  text-[1rem] ring-1"
+        styles=" rounded-lg py-3 px-5 bottom-20 mx-auto absolute -translate-x-[50%] left-[50%]  bg-anime  text-[1rem] ring-1 bg-black/50"
       >
         Enter Atlas's path
       </Button>
