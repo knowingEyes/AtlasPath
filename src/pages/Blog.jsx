@@ -11,7 +11,8 @@ export const Blog = () => {
     title,
     content,
     cities,
-    tag
+    tag,
+    slug
     }`;
       const blogs = await sanityClient.fetch(query);
       setBlogs(blogs);
