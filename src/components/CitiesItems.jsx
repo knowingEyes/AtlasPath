@@ -1,14 +1,8 @@
 import { Link, useNavigate } from "react-router-dom";
 import { Button } from "./Button";
 import { CountryFlag } from "./CountryFlag";
-const dateFormatter = (data) => {
-  const date = new Date(data);
-  return date.toLocaleDateString("en", {
-    year: "numeric",
-    day: "numeric",
-    month: "long",
-  });
-};
+import { dateFormatter } from "../utils/dateFormatter";
+
 
 export const CitiesItems = ({
   cityName,

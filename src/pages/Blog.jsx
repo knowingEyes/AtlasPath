@@ -1,32 +1,34 @@
-import { Children, useEffect, useState } from "react";
+import {  useEffect, useState } from "react";
 import { sanityClient } from "../lib/sanityClient";
 import { PortableText } from "@portabletext/react";
+import BlogPreviewItems from "../components/BlogPreviewItems";
+
 export const Blog = () => {
-  const [blogs, setBlogs] = useState([1, 2, 3]);
+  const [blogs, setBlogs] = useState([]);
 
   // Fetch all blogs
   useEffect(() => {
     async function fetchBlogs() {
       const query = `*[_type == "blog"]{
     title,
-    content,
-    cities,
     tag,
-    slug
+    slug,
+    date,
+    image
     }`;
       const blogs = await sanityClient.fetch(query);
       setBlogs(blogs);
-      ;
     }
     fetchBlogs();
   }, []);
-  console.log(blogs)
+
 
   // if (!blogs.length) return;
   return (
     <section className="text-black">
       <ul>
-      {blogs.map((value) => (
+        {blogs.map(({title, tag, date, image})=> <BlogPreviewItems title={title} createdAt={date} tag={tag} image={image} key={title}/>)}
+      {/* {blogs.map((value) => (
         <PortableText
           components={{
             block: {
@@ -44,7 +46,7 @@ export const Blog = () => {
             },
           }}
         />
-      ))}
+      ))} */}
       </ul>
     </section>
   );
