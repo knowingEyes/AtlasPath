@@ -1,52 +1,51 @@
-import {  useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { sanityClient } from "../lib/sanityClient";
-import { PortableText } from "@portabletext/react";
 import BlogPreviewItems from "../components/BlogPreviewItems";
 
 export const Blog = () => {
   const [blogs, setBlogs] = useState([]);
+  const [isLoading, setIsloading] = useState(false);
+  const [error, setError] = useState(null);
 
   // Fetch all blogs
   useEffect(() => {
     async function fetchBlogs() {
-      const query = `*[_type == "blog"]{
+      setIsloading(true);
+      try {
+        const query = `*[_type == "blog"]{
     title,
     tag,
     slug,
     date,
     image
     }`;
-      const blogs = await sanityClient.fetch(query);
-      setBlogs(blogs);
+        const blogs = await sanityClient.fetch(query);
+        setBlogs(blogs);
+        console.log(blogs);
+      } catch (e) {
+        setError(e);
+      } finally {
+        setIsloading(false);
+      }
     }
     fetchBlogs();
   }, []);
 
+  if (isLoading) return <p>Loading...</p>;
 
-  // if (!blogs.length) return;
   return (
     <section className="text-black">
       <ul>
-        {blogs.map(({title, tag, date, image})=> <BlogPreviewItems title={title} createdAt={date} tag={tag} image={image} key={title}/>)}
-      {/* {blogs.map((value) => (
-        <PortableText
-          components={{
-            block: {
-              h5: ({ children }) => (
-                <h5 className="text-amber-300 my-3 font-bold">{children}</h5>
-              ),
-            },
-            listItem: {
-              bullet: ({ children }) => <li className="">{children}</li>,
-            },
-            list: {
-              bullet: ({ children }) => (
-                <ul className="list-decimal px-5">{children}</ul>
-              ),
-            },
-          }}
-        />
-      ))} */}
+        {blogs.map(({ title, tag, date, image, slug }) => (
+          <BlogPreviewItems
+            title={title}
+            createdAt={date}
+            tag={tag}
+            image={image}
+            key={title}
+            slug={slug}
+          />
+        ))}
       </ul>
     </section>
   );

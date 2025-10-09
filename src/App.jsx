@@ -14,6 +14,7 @@ import { ProtectedRoute } from "./utils/ProtectedRoute";
 import { IsNewProvider } from "./contexts/IsNewContext";
 import { Gallery } from "./pages/Gallery";
 import { Blog } from "./pages/Blog";
+import BlogContent from "./pages/BlogContent";
 
 function App() {
   return (
@@ -31,10 +32,10 @@ function App() {
                 <Route path="countries" element={<Countries />} />
               </Route>
               <Route path="map" element={<Map />} />
-              <Route path="discover" element={<Discover />} >
-              <Route index element={<Navigate to="gallery"/>}/>
-              <Route path="gallery" element={<Gallery/>}/>
-              <Route path="blog" element={<Blog/>}/>
+              <Route path="discover" element={<Discover />}>
+                <Route index element={<Navigate to="gallery" />} />
+                <Route path="gallery" element={<Gallery />} />
+                <Route path="blog" element={<Blog />} />
               </Route>
               <Route path="stats" element={<Stats />} />
             </Route>
@@ -44,6 +45,7 @@ function App() {
             path="*"
             element={<p className="text-2xl text-center">page not found :(</p>}
           />
+          <Route path="blog/:slug" element={<BlogContent />} />
         </Routes>
       </CitiesProvider>
     </IsNewProvider>
