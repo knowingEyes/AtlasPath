@@ -29,7 +29,7 @@ export const CitiesItems = ({
           gradient={false}
           onClick={(e) => {
             e.stopPropagation();
-            navigate(`/map?lat=${lat}&lon=${lon}`);
+            navigate(`/app/map?lat=${lat}&lon=${lon}`);
           }}
           styles="px-5 py-1 bac 
           absolute right-4 rounded-full text-sm top-5 z-9999 backdrop-blur-sm bg-black/50"

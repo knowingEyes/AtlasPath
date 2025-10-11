@@ -35,7 +35,7 @@ export const Blog = () => {
 
   return (
     <section className="text-black">
-      <ul className="pb-25">
+      <ul className="pb-25 max-w-[1024px] mx-auto">
         {blogs.map(({ title, tag, date, image, slug }) => (
           <BlogPreviewItems
             title={title}
