@@ -3,6 +3,8 @@ import { useParams } from "react-router-dom";
 import { sanityClient } from "../lib/sanityClient";
 import { PortableText } from "@portabletext/react";
 import { dateFormatter } from "../utils/dateFormatter";
+import { Message } from "../components/Message";
+import { HashLoader } from "react-spinners";
 
 const BlogContent = () => {
   const { slug } = useParams();
@@ -19,8 +21,13 @@ const BlogContent = () => {
     };
     getBlogs();
   }, [query]);
-  console.log(blogs);
-  if (!bestCities) return <p>loading...</p>;
+ 
+  if (!bestCities)
+    return (
+      <Message type="fullscreen" message="Fectching blog...">
+        <HashLoader />
+      </Message>
+    );
   return (
     <main className="p-5 ">
       <h1 className="text-3xl font-bold text-center mt-5">{blogs.title}</h1>
