@@ -72,12 +72,12 @@ export const Stats = () => {
           type="fullscreen"
         />
   return (
-    <section className="h-screen p-4 flex flex-col  justify-center">
-        <>
+    <section className="h-max p-4 flex flex-col  justify-center">
+        
           <h1 className="text-2xl text-center font-semibold m-3">
             Most visited cities per country
           </h1>
-          <Bar
+          <Bar className="max-h-70"
             data={data}
             options={{
               plugins: {
@@ -117,12 +117,12 @@ export const Stats = () => {
                 </p>
               ) : (
                 <div className="[&_p]:text-xs">
-                  <Message message="Visit a city at least twice to view stat."></Message>
+                  <Message message="Visit a city at least twice to view this stat."></Message>
                 </div>
               )}
             </div>
           </div>
-        </>
+        
     </section>
   );
 };

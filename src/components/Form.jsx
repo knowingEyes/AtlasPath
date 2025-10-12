@@ -45,7 +45,7 @@ export const Form = ({ setIsOpen, ...options }) => {
         />
       </div>
       <label htmlFor="added" className="block text-sm">
-        Visited
+        Date visited
       </label>{" "}
       <DatePicker
         className="bg-gray-100 block rounded-md p-3 my-2  font-semibold "

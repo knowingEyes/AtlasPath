@@ -157,7 +157,7 @@ const CityDetailsContent = ({
   imgSrc,
 }) => {
   const { visitedCities } = useCities();
-  console.log(imgSrc);
+
   // Read from global State and use as a fallback City details
   const {
     emoji,

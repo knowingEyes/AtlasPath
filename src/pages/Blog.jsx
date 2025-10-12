@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { sanityClient } from "../lib/sanityClient";
 import BlogPreviewItems from "../components/BlogPreviewItems";
+import BlogPreviewSkeleton from "../skeletons/BlogPreviewSkeleton";
 
 export const Blog = () => {
   const [blogs, setBlogs] = useState([]);
@@ -31,7 +32,7 @@ export const Blog = () => {
     fetchBlogs();
   }, []);
 
-  if (isLoading) return <p>Loading...</p>;
+  if (isLoading) return <BlogPreviewSkeleton blogs={blogs}/>;
 
   return (
     <section className="text-black">
@@ -44,6 +45,8 @@ export const Blog = () => {
             image={image}
             key={title}
             slug={slug}
+            isLoading={isLoading}
+            
           />
         ))}
       </ul>

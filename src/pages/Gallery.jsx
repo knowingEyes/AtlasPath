@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from "react";
 import { GalleryItems } from "../components/GalleryItems";
-import { GallerySkelton } from "../components/GallerySkeleton";
+import { GallerySkelton } from "../skeletons/GallerySkeleton";
 import { PEXELS_BASE_URL, pexelsApiToken } from "../config/apiconfig";
 import { useFetch } from "../hooks/useFetch";
 import { getAttrribution } from "../utils/getAttribution";
