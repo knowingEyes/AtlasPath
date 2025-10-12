@@ -56,6 +56,7 @@ export const CityDetails = () => {
     pexelsApiToken
   );
 
+  //Destructure the cityimage form pexels to get photo url  and photo attribution
   const {
     src: { original: imgSrc } = {},
     photographer,
@@ -63,7 +64,7 @@ export const CityDetails = () => {
   } = cityImage?.photos[1] || {};
 
   // Read from global State and use as a fallback City image
-  const { imgUrl } = visitedCities.find((city) => city.id === id) ?? {};
+  const { imgUrl } = visitedCities.find((city) => city.id === id) || {};
 
   //Check if a city is already visited
   const isVisited = visitedCities.map(({ id }) => id).includes(id);
@@ -80,10 +81,7 @@ export const CityDetails = () => {
 
   if (isLoading || isImgLoading || isAboutLoading)
     return (
-      <Message
-        message="Fetching city details..."
-        type="fullscreen"
-      >
+      <Message message="Fetching city details..." type="fullscreen">
         <BounceLoader />
       </Message>
     );
@@ -103,8 +101,7 @@ export const CityDetails = () => {
       {!isLoading && !isImgLoading && !isAboutLoading && (
         <section className="h-screen text-white relative overflow-y-hidden">
           <CityDetailsHero
-            imgUrl={imgUrl}
-            imgSrc={imgSrc}
+            imageToUse={imgSrc || imgUrl}
             cityImage={cityImage}
             isLoading={isImgLoading}
           >
@@ -125,6 +122,7 @@ export const CityDetails = () => {
                 id={id}
                 setIsOpen={setIsOpen}
                 isLoading={isAboutLoading}
+                imgSrc={imgSrc}
               />
             )}
             {isOpen && (
@@ -156,9 +154,10 @@ const CityDetailsContent = ({
   countryFlag,
   id,
   setIsOpen,
+  imgSrc,
 }) => {
   const { visitedCities } = useCities();
-
+  console.log(imgSrc);
   // Read from global State and use as a fallback City details
   const {
     emoji,
@@ -188,7 +187,10 @@ const CityDetailsContent = ({
       <div className="mt-5 mb-3 [&_p]:text-left">
         <h2 className=" mb-1">ABOUT</h2>
         {!aboutCityToUse ? (
-          <Message message="No information available for this location." />
+          <div className="[&>p]:text-sm">
+            {" "}
+            <Message message="No information available for this location." />
+          </div>
         ) : (
           <p className="text-sm text-gray-700">{aboutCityToUse}</p>
         )}
@@ -207,9 +209,19 @@ const CityDetailsContent = ({
           )}
         </div>
       </div>
-      <div className="[&>button]:rounded-full [&>button]:min-w-[100%] text-white">
+      <div className="[&>button]:rounded-full [&>button]:min-w-[100%] [&>button]:text-white [&>p]:text-center [&>p]:text-sm [&>p]:mt-2">
         {!isVisited ? (
-          <Button onClick={() => setIsOpen((p) => !p)}>Save visit</Button>
+          <>
+            <Button onClick={() => setIsOpen((p) => !p)} disabled={!imgSrc}>
+              Save visit
+            </Button>
+            {!imgSrc && (
+              <Message
+                type="normal"
+                message="This location doesn't have  complete details yet. Let's save only cities that we can show beautifully."
+              />
+            )}
+          </>
         ) : (
           <Button>Visited</Button>
         )}
@@ -218,10 +230,8 @@ const CityDetailsContent = ({
   );
 };
 
-const CityDetailsHero = ({ imgSrc, imgUrl, children }) => {
+const CityDetailsHero = ({ imageToUse, children }) => {
   const navigate = useNavigate();
-  const imageToUse = imgSrc || imgUrl;
-
   return (
     <div
       className="h-[50%] relative [&_p]:text-white"

@@ -1,6 +1,13 @@
-export const Button = ({ children, onClick, styles, gradient = true }) => {
+export const Button = ({
+  children,
+  onClick,
+  styles,
+  gradient = true,
+  disabled = false,
+}) => {
   return (
     <button
+      disabled={disabled}
       onClick={onClick}
       className={`${
         gradient && `bg-gradient-to-r from-[#121212] to-[#3c3c3c] `
@@ -10,4 +17,3 @@ export const Button = ({ children, onClick, styles, gradient = true }) => {
     </button>
   );
 };
-

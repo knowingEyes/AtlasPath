@@ -48,7 +48,7 @@ export const Gallery = () => {
     <section className="max-w-[1024px] mx-auto">
       <ul className={`grid min-[1024px]:grid-cols-3 grid-cols-2 gap-3 pb-30`}>
         {galleryImages.map(({ img, photographer_url, photographer }, i) => (
-          <>
+          
             <GalleryItems
               key={i}
               cityName={cities[i]}
@@ -57,7 +57,7 @@ export const Gallery = () => {
               photoGrapher={photographer}
               handleSelectedImgage={handleSelectedImage}
             />
-          </>
+          
         ))}
       </ul>{" "}
       <Lightbox

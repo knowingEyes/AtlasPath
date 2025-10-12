@@ -5,7 +5,7 @@ export default defineType({
   title: 'Blog',
   type: 'document',
   fields: [
-    defineField({
+    defineField({ 
       name: 'title',
       title: 'Title',
       type: 'string',

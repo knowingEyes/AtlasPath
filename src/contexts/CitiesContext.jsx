@@ -39,7 +39,7 @@ const CitiesProvider = ({ children }) => {
   }, []);
 
   const handleNewCity = (newCity) =>
-    dispatch({ type: "ADD_CITY", payload: [...visitedCities, newCity] });
+    dispatch({ type: "ADD_CITY", payload: [newCity, ...visitedCities] });
   return (
     <CitiesContext.Provider
       value={{ city, handleNewCity, visitedCities, position, countriesVisited }}
