@@ -1,5 +1,7 @@
+import { memo } from "react";
 
-export const GalleryItems = ({ imgUrl, cityName, photoGrapher, photoGrapherUrl, handleSelectedImgage }) => {
+export const GalleryItems = memo(function GalleryItems({ imgUrl, cityName, photoGrapher, photoGrapherUrl, handleSelectedImgage })  {
+  console.log(cityName)
   return (
     <li className="rounded-xl overflow-hidden shadow-md cursor-pointer" onClick={()=> handleSelectedImgage(imgUrl)}>
       <img  src={imgUrl[0]} alt={cityName} className=" w-full max-h-40 h-50 block object-cover"/>
@@ -7,5 +9,5 @@ export const GalleryItems = ({ imgUrl, cityName, photoGrapher, photoGrapherUrl, 
     </li>
     
   );
-};
+});
 

@@ -197,7 +197,7 @@ const CityDetailsContent = ({
       </div>
 
       <div>
-        <h2 className=" mb-4 font-inter">HIGHTLIGHT</h2>
+        <h2 className=" mb-4">HIGHTLIGHT</h2>
       </div>
       <div className="mb-4">
         <h2 className="">NOTES</h2>

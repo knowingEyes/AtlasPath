@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import { GalleryItems } from "../components/GalleryItems";
 import { GallerySkelton } from "../skeletons/GallerySkeleton";
 import { PEXELS_BASE_URL, pexelsApiToken } from "../config/apiconfig";
@@ -12,10 +12,10 @@ export const Gallery = () => {
   const [openLightBox, setOpenLightBox] = useState(false);
   const [selectedPhoto, setSelectedPhoto] = useState(null);
   
-  const handleSelectedImage = (photos) => {
+  const handleSelectedImage = useCallback((photos) => {
     setOpenLightBox(true);
     setSelectedPhoto(photos.map((photos) => ({ src: photos })));
-  };
+  }, []);
   const [galleryImages, setGalleryImages] = useLocalStorageState(
     [],
     "galleryImage"
@@ -56,7 +56,7 @@ export const Gallery = () => {
               photoGrapherUrl={photographer_url}
               photoGrapher={photographer}
               handleSelectedImgage={handleSelectedImage}
-            />
+            /> 
           
         ))}
       </ul>{" "}

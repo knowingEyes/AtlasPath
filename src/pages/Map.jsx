@@ -1,4 +1,4 @@
-import {
+ import {
   MapContainer,
   TileLayer,
   Marker,
@@ -7,7 +7,7 @@ import {
   useMap,
 } from "react-leaflet";
 import L from "leaflet";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useSearchParams } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { useQueryString } from "../hooks/useQueryString";
 import { useCities } from "../hooks/useCities";
