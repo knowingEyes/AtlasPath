@@ -1,6 +1,6 @@
-import { cities } from "../config/gallerycities";
 
-export const getAttrribution = (acc, { photos } = {}, max = 1, ...options) => {
+
+export const getAttribution = (acc, { photos } = {}, max = 1, ...options) => {
   const more = new Object(...options)
   const mutiple = max > 1;
   const mutiplePhotos = photos

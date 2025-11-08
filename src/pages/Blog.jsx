@@ -5,13 +5,13 @@ import BlogPreviewSkeleton from "../skeletons/BlogPreviewSkeleton";
 
 export const Blog = () => {
   const [blogs, setBlogs] = useState([]);
-  const [isLoading, setIsloading] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState(null);
 
   // Fetch all blogs
   useEffect(() => {
     async function fetchBlogs() {
-      setIsloading(true);
+      setIsLoading(true);
       try {
         const query = `*[_type == "blog"]{
     title,
@@ -22,11 +22,10 @@ export const Blog = () => {
     }`;
         const blogs = await sanityClient.fetch(query);
         setBlogs(blogs);
-        console.log(blogs);
       } catch (e) {
         setError(e);
       } finally {
-        setIsloading(false);
+        setIsLoading(false);
       }
     }
     fetchBlogs();

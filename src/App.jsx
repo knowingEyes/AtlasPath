@@ -15,40 +15,49 @@ import { IsNewProvider } from "./contexts/IsNewContext";
 import { Gallery } from "./pages/Gallery";
 import { Blog } from "./pages/Blog";
 import BlogContent from "./pages/BlogContent";
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+
+// Create queryClient
+const queryClient = new QueryClient();
+
 
 function App() {
   return (
-    <IsNewProvider>
-      <CitiesProvider>
-        <Routes>
-          <Route path="/" element={<LandingPage />} />
-          <Route path="welcome" element={<Welcome />} />
-          <Route element={<ProtectedRoute />}>
-            <Route path="app" element={<Layout />}>
-              <Route index element={<Navigate to="homepage" replace />} />
-              <Route path="homepage" element={<HomePage />}>
-                <Route index element={<Navigate to="cities" replace />} />
-                <Route path="cities" element={<Cities />} />
-                <Route path="countries" element={<Countries />} />
+    <QueryClientProvider client={queryClient}>
+      <IsNewProvider>
+        <CitiesProvider>
+          <Routes>
+            <Route path="/" element={<LandingPage />} />
+            <Route path="welcome" element={<Welcome />} />
+            <Route element={<ProtectedRoute />}>
+              <Route path="app" element={<Layout />}>
+                <Route index element={<Navigate to="homepage" replace />} />
+                <Route path="homepage" element={<HomePage />}>
+                  <Route index element={<Navigate to="cities" replace />} />
+                  <Route path="cities" element={<Cities />} />
+                  <Route path="countries" element={<Countries />} />
+                </Route>
+                <Route path="map" element={<Map />} />
+                <Route path="discover" element={<Discover />}>
+                  <Route index element={<Navigate to="gallery" />} />
+                  <Route path="gallery" element={<Gallery />} />
+                  <Route path="blog" element={<Blog />} />
+                </Route>
+                <Route path="stats" element={<Stats />} />
               </Route>
-              <Route path="map" element={<Map />} />
-              <Route path="discover" element={<Discover />}>
-                <Route index element={<Navigate to="gallery" />} />
-                <Route path="gallery" element={<Gallery />} />
-                <Route path="blog" element={<Blog />} />
-              </Route>
-              <Route path="stats" element={<Stats />} />
             </Route>
-          </Route>
-          <Route path="cities/:id" element={<CityDetails />} />
-          <Route
-            path="*"
-            element={<p className="text-2xl text-center">page not found :(</p>}
-          />
-          <Route path="blog/:slug" element={<BlogContent />} />
-        </Routes>
-      </CitiesProvider>
-    </IsNewProvider>
+            <Route path="cities/:id" element={<CityDetails />} />
+            <Route
+              path="*"
+              element={
+                <p className="text-2xl text-center">page not found :(</p>
+              }
+            />
+            <Route path="blog/:slug" element={<BlogContent />} />
+          </Routes>
+        </CitiesProvider>
+      </IsNewProvider>
+    </QueryClientProvider>
   );
 }
 

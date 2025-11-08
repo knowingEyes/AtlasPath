@@ -1,47 +1,29 @@
-import { useEffect } from "react";
 import { useCities } from "../hooks/useCities";
 import { CountriesItems } from "../components/CountriesItems";
 import { Message } from "../components/Message";
-import { PEXELS_BASE_URL, pexelsApiToken } from "../config/apiconfig";
-import { getCountrFlag } from "../utils/getFlag";
-import { useLocalStorageState } from "../hooks/useLocalStorageState";
-import { useFetch } from "../hooks/useFetch";
-import { getAttrribution } from "../utils/getAttribution";
+import { pexelsApiToken } from "../config/apiconfig";
+import { getCountryFlag } from "../utils/getFlag";
+import { usePromiseFetch } from "../hooks/usePromiseFetch";
+import { getAttribution } from "../utils/getAttribution";
 
 export const Countries = () => {
   const { visitedCities, countriesVisited } = useCities();
-  const [countriesImages, setCountriesImages] = useLocalStorageState(
-    [],
-    "contriesImages"
-  );
+
   const countries = countriesVisited.map(({ country }) => country);
 
-  //Countries images data from pexels api
-  const { data } = useFetch(
-    visitedCities.length && PEXELS_BASE_URL,
-    pexelsApiToken,
-    "promise",
-    countries
-  );
+  // Countries images data from pexels api
+  const { data } = usePromiseFetch(pexelsApiToken, "countries", countries);
 
-  /*Create an object of data that includes the photographer
-   url and name using the fetched countries images data */
-  useEffect(() => {
-    if (!data) return;
-    const imgSrcAndAtrribute = data.reduce((acc, photos, index) => {
-      const countriesCodes = countriesVisited.map(({ code }) => code); // Countries code.
-      const flag = getCountrFlag(countriesCodes[index]); // Get countries flags using the countries code and index of the countries.
+  // Create countries images with attribution info and flags
+  const countriesImages = data?.reduce((acc, photos, index) => {
+    const countriesCodes = countriesVisited.map(({ code }) => code); // Countries code.
+    const flag = getCountryFlag(countriesCodes[index]); // Get countries flags using the countries code and index of the countries.
 
-      //create the countries object
-      acc = getAttrribution(acc, photos, 1, {flag, name: 0});
-      
-      return acc;
-    }, []);
+    // Create the countries object
+    acc = getAttribution(acc, photos, 1, { flag, name: 0 });
 
-    if (!imgSrcAndAtrribute) return;
-
-    setCountriesImages(imgSrcAndAtrribute);
-  }, [data, countriesVisited]);
+    return acc;
+  }, []);
 
   if (!visitedCities.length)
     return (

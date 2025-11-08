@@ -1,4 +1,4 @@
- import {
+import {
   MapContainer,
   TileLayer,
   Marker,
@@ -92,11 +92,9 @@ const SetView = ({ position, myPosition }) => {
 const DetectClick = () => {
   const navigate = useNavigate();
   useMapEvent({
-    click: (e) =>
+    click: ({ latlng }) =>
       navigate(
-        `/cities/${new Date().getTime()}?lat=${e.latlng.lat}&lon=${
-          e.latlng.lng
-        }`
+        `/cities/${new Date().getTime()}?lat=${latlng.lat}&lon=${latlng.lng}`
       ),
   });
 };

@@ -1,6 +1,6 @@
 import { BounceLoader } from "react-spinners";
 import { FaArrowLeft } from "react-icons/fa";
-import { useNavigate, useParams } from "react-router-dom";
+import { useNavigate, useParams} from "react-router-dom";
 import { Button } from "../components/Button";
 import { useQueryString } from "../hooks/useQueryString";
 import { useState } from "react";
@@ -10,6 +10,7 @@ import { useCities } from "../hooks/useCities";
 import { Message } from "../components/Message";
 import { CountryFlag } from "../components/CountryFlag";
 import { PhotoAttribution } from "../components/PhotoAttribution";
+
 import {
   LOCATIONIQ_BASE_URL,
   locationIqApiToken,
@@ -17,26 +18,28 @@ import {
   pexelsApiToken,
   WIKIPEDIA_BASE_URL,
 } from "../config/apiconfig";
-import { getCountrFlag } from "../utils/getFlag";
-import { useFetch } from "../hooks/useFetch";
+
+import { getCountryFlag } from "../utils/getFlag";
+import { useTanStackFetch } from "../hooks/useTanStackFetch";
 
 export const CityDetails = () => {
   const { id } = useParams();
   const [lat, lon] = useQueryString();
   const { visitedCities } = useCities();
+  const [isOpen, setIsOpen] = useState(false);
+
+  // Fetch City Details from LocationIQ
   const {
     data: cityInfo,
     isLoading,
     error,
-  } = useFetch(
-    lat &&
-      lon &&
-      `${LOCATIONIQ_BASE_URL}/reverse?key=${locationIqApiToken}&lat=${lat}&lon=${lon}&format=json&`
+  } = useTanStackFetch(
+    `${LOCATIONIQ_BASE_URL}/reverse?key=${locationIqApiToken}&lat=${lat}&lon=${lon}&format=json&`,
+    "cityInfo",
+    Boolean(lat && lon)
   );
 
-  const [isOpen, setIsOpen] = useState(false);
-
-  // Default City Details from an Api data from LocationIQ
+  // Default City details from LocationIQ
   const {
     country: countryName,
     country_code,
@@ -47,16 +50,22 @@ export const CityDetails = () => {
     city = state ?? city_district ?? county ?? region,
   } = cityInfo?.address || {};
 
-  const { data: aboutCity, isLoading: isAboutLoading } = useFetch(
-    city && `${WIKIPEDIA_BASE_URL}/page/summary/${city}`
+  // Fetch City summary from Wikipedia
+  const { data: aboutCity, isLoading: isAboutLoading } = useTanStackFetch(
+    `${WIKIPEDIA_BASE_URL}/page/summary/${city}`,
+    "aboutCity",
+    Boolean(city)
   );
 
-  const { data: cityImage, isLoading: isImgLoading } = useFetch(
-    city && `${PEXELS_BASE_URL}/search?query=${city}`,
+  // Fetch City Image from Pexels
+  const { data: cityImage, isLoading: isImgLoading } = useTanStackFetch(
+    `${PEXELS_BASE_URL}/search?query=${city}`,
+    "cityImage",
+    Boolean(city),
     pexelsApiToken
   );
 
-  //Destructure the cityimage form pexels to get photo url  and photo attribution
+  //Destructure the cityimage form pexels to get photo url and photo attribution
   const {
     src: { original: imgSrc } = {},
     photographer,
@@ -69,7 +78,7 @@ export const CityDetails = () => {
   //Check if a city is already visited
   const isVisited = visitedCities.map(({ id }) => id).includes(id);
 
-  const countryFlag = getCountrFlag(country_code);
+  const countryFlag = getCountryFlag(country_code);
 
   if (error?.message === "Failed to fetch")
     return (
@@ -99,14 +108,14 @@ export const CityDetails = () => {
   return (
     <>
       {!isLoading && !isImgLoading && !isAboutLoading && (
-        <section className="h-screen text-white relative overflow-y-hidden">
+        <section className="h-screen text-white relative">
           <CityDetailsHero
             imageToUse={imgSrc || imgUrl}
             cityImage={cityImage}
             isLoading={isImgLoading}
           >
             <PhotoAttribution
-              PhotoGraperName={photographer}
+              PhotoGrapherName={photographer}
               photoGrapherUrl={photographer_url}
             />
           </CityDetailsHero>
@@ -167,6 +176,7 @@ const CityDetailsContent = ({
     about,
   } = visitedCities.find((city) => city.id === id) ?? {};
 
+  // Use city summary from global state if available
   const aboutCityToUse = aboutCity || about;
 
   return (
@@ -197,7 +207,7 @@ const CityDetailsContent = ({
       </div>
 
       <div>
-        <h2 className=" mb-4">HIGHTLIGHT</h2>
+        <h2 className=" mb-4">HIGHLIGHT</h2>
       </div>
       <div className="mb-4">
         <h2 className="">NOTES</h2>
