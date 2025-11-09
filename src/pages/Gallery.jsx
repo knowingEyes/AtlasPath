@@ -23,7 +23,7 @@ export const Gallery = () => {
   );
 
   // Create gallery images with attribution info
-  const galleryImages = data?.reduce((acc, photos) =>getAttribution(acc, photos, 5), []);
+  const galleryImages = data?.reduce((acc, photos) =>getAttribution(acc, photos, 5), [] );
 
 
   if (isLoading) return <GallerySkelton />;

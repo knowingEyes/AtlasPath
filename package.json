@@ -10,6 +10,7 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "@chatui/core": "^3.4.0",
     "@heroicons/react": "^2.2.0",
     "@huggingface/inference": "^4.13.2",
     "@portabletext/react": "^4.0.3",
