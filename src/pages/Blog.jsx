@@ -31,7 +31,7 @@ export const Blog = () => {
     fetchBlogs();
   }, []);
 
-  if (isLoading) return <BlogPreviewSkeleton blogs={blogs}/>;
+  if (isLoading) return <BlogPreviewSkeleton blogs={blogs} />;
 
   return (
     <section className="text-black">
@@ -45,7 +45,6 @@ export const Blog = () => {
             key={title}
             slug={slug}
             isLoading={isLoading}
-            
           />
         ))}
       </ul>

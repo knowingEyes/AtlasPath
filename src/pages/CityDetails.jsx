@@ -1,6 +1,6 @@
 import { BounceLoader } from "react-spinners";
 import { FaArrowLeft } from "react-icons/fa";
-import { useNavigate, useParams} from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { Button } from "../components/Button";
 import { useQueryString } from "../hooks/useQueryString";
 import { useState } from "react";
@@ -21,6 +21,7 @@ import {
 
 import { getCountryFlag } from "../utils/getFlag";
 import { useTanStackFetch } from "../hooks/useTanStackFetch";
+import { toast, Toaster } from "sonner";
 
 export const CityDetails = () => {
   const { id } = useParams();
@@ -149,6 +150,7 @@ export const CityDetails = () => {
               />
             )}
           </BottomSheet>
+          <Toaster position="top-center" />
         </section>
       )}
     </>
@@ -220,20 +222,25 @@ const CityDetailsContent = ({
         </div>
       </div>
       <div className="[&>button]:rounded-full [&>button]:min-w-[100%] [&>button]:text-white [&>p]:text-center [&>p]:text-sm [&>p]:mt-2">
-        {!isVisited ? (
-          <>
-            <Button onClick={() => setIsOpen((p) => !p)} disabled={!imgSrc}>
-              Save visit
-            </Button>
-            {!imgSrc && (
-              <Message
-                type="normal"
-                message="This location doesn't have  complete details yet. Let's save only cities that we can show beautifully."
-              />
-            )}
-          </>
-        ) : (
-          <Button>Visited</Button>
+        {/*  Show Save visit button only if the city is not visited and has an image*/}
+        {!isVisited && imgSrc && (
+          <Button onClick={() => setIsOpen(true)} disabled={!imgSrc}>
+            Save visit
+          </Button>
+        )}
+        {/*  Show Visited button only if the city is visited */}
+        {isVisited && <Button>Visited</Button>}
+
+        {!imgSrc && !isVisited && (
+          <Button
+            onClick={() =>
+              toast.info(
+                "This location doesn't have complete details yet. Let's save only cities that we can show beautifully."
+              )
+            }
+          >
+            Save visit
+          </Button>
         )}
       </div>
     </>

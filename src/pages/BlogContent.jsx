@@ -10,35 +10,37 @@ const BlogContent = () => {
   const { slug } = useParams();
   const [blogs, setblogs] = useState({});
   const { cities: bestCities } = blogs;
-
+  const [isLoading, setIsLoading] = useState(false);
   const query = `*[_type == 'blog' && slug.current == '${slug}'][0]
 `;
   const updated = dateFormatter(blogs?._updatedAt);
   useEffect(() => {
     const getBlogs = async () => {
+      setIsLoading(true);
       const data = await sanityClient.fetch(query);
       setblogs(data);
+      setIsLoading(false);
     };
     getBlogs();
   }, [query]);
- 
-  if (!bestCities)
+
+  if (isLoading)
     return (
-      <Message type="fullscreen" message="Fectching blog...">
+      <Message type="fullscreen" message="Fetching blog...">
         <HashLoader />
       </Message>
     );
   return (
     <main className="p-5 ">
-      <h1 className="text-3xl font-bold text-center mt-5">{blogs.title}</h1>
-      <hr className="border-gray-400 m-5 " />
-      <span className="text-lg text-center block mb-4">
+      <h1 className="text-3xl max-md:text-2xl font-bold  mt-5">{blogs.title}</h1>
+      <hr className="border-gray-400 my-5 " />
+      <span className="text-lg max-md:text-sm  block mb-4">
         <i>
           Updated <time>{updated}</time>{" "}
         </i>
       </span>
       <ul className="list-decimal">
-        {bestCities.map(({ content, name, image }) => (
+        {bestCities?.map(({ content, name, image }) => 
           <li>
             <h2 className="font-bold text-2xl my-2">{name}</h2>
             <img src={image} alt={name} loading="lazy" className="block my-4" />
@@ -57,7 +59,7 @@ const BlogContent = () => {
               />
             </article>
           </li>
-        ))}
+        )}
       </ul>
     </main>
   );
