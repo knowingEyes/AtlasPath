@@ -3,6 +3,7 @@ const WIKIPEDIA_BASE_URL = "https://en.wikipedia.org/api/rest_v1";
 const locationIqApiToken = import.meta.env.VITE_LOCATIONIQ_TOKEN;
 const pexelsApiToken = import.meta.env.VITE_PEXELS_TOKEN;
 const PEXELS_BASE_URL = "https://api.pexels.com/v1";
+const HF_API_TOKEN = import.meta.env.VITE_HF_TOKEN;
 export {
   locationIqApiToken,
   pexelsApiToken,

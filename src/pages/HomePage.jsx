@@ -1,13 +1,11 @@
 import { Outlet } from "react-router-dom";
 import { SectionNavBar } from "../components/SectionNavBar";
+import AppHeader from "../components/AppHeader";
 
 export const HomePage = () => {
   return (
     <section className="p-5 h-screen">
-      <header className="my-5 ">
-        <p className="text-gray-600 text-sm">Looking for inspiration?</p>
-        <h1 className="text-2xl font-semibold">Start exploring!</h1>
-      </header>
+      <AppHeader />
       <SectionNavBar views={["Cities", "Countries"]} />
       <Outlet />
     </section>

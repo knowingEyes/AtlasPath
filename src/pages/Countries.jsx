@@ -24,7 +24,7 @@ export const Countries = () => {
 
     return acc;
   }, []);
-
+console.log(countriesImages)
   if (!visitedCities.length)
     return (
       <Message
