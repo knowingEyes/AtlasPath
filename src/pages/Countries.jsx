@@ -24,7 +24,7 @@ export const Countries = () => {
 
     return acc;
   }, []);
-console.log(countriesImages)
+
   if (!visitedCities.length)
     return (
       <Message
@@ -35,7 +35,7 @@ console.log(countriesImages)
   return (
     <section>
       <ul className="pb-25 max-w-[500px] mx-auto">
-        {countriesImages.map(
+        {countriesImages?.map(
           ({ img, photographer_url, photographer, flag }) => (
             <CountriesItems
               img={img}

@@ -10,6 +10,7 @@ import {
   Legend,
 } from "chart.js";
 import { Message } from "../components/Message";
+
 ChartJS.register(
   CategoryScale,
   LinearScale,
@@ -73,7 +74,6 @@ export const Stats = () => {
         />
   return (
     <section className="h-max p-4 flex flex-col  justify-center">
-        
           <h1 className="text-2xl text-center font-semibold m-3">
             Most visited cities per country
           </h1>

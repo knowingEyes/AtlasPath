@@ -32,7 +32,7 @@ export const CitiesItems = ({
             navigate(`/app/map?lat=${lat}&lon=${lon}`);
           }}
           styles="px-5 py-1 bac 
-          absolute right-4 rounded-full text-sm top-5 z-9999 backdrop-blur-sm bg-black/50"
+          absolute right-4 rounded-full text-sm top-5 z-999 backdrop-blur-sm bg-black/50"
         >
           📍 Map
         </Button>
