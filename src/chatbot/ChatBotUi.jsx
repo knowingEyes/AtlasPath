@@ -2,7 +2,7 @@ import { CB_API_TOKEN } from "../config/apiconfig";
 import Cerebras from "@cerebras/cerebras_cloud_sdk";
 import Chat, { useMessages, Bubble } from "@chatui/core";
 
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 
 const client = new Cerebras({
   apiKey: CB_API_TOKEN,
@@ -12,6 +12,7 @@ const ChatBotUi = ({ showBot }) => {
   const { appendMsg, messages } = useMessages([]);
   const [prompt, setPrompt] = useState(null);
   const [answer, setAnswer] = useState("");
+  const chatRef = useRef(null);
 
   useEffect(() => {
     appendMsg({
@@ -23,7 +24,10 @@ const ChatBotUi = ({ showBot }) => {
       position: "left",
     });
   }, [answer, appendMsg]);
- 
+
+  useEffect(() => {
+    chatRef.current.scrollTo(0, chatRef.current.scrollHeight);
+  }, [messages]);
 
   useEffect(() => {
     const fetchAnswer = async () => {
@@ -53,7 +57,7 @@ const ChatBotUi = ({ showBot }) => {
         position: "right",
       });
     }
-    // setPrompt(val);
+
     setTimeout(() => {
       setPrompt(val);
     }, 1000);
@@ -61,7 +65,8 @@ const ChatBotUi = ({ showBot }) => {
 
   return (
     <div
-      className={`max-h-0 absolute top-22  z-9999 rounded-2xl overflow-auto right-10 max-w-0  transition-all  duration-500 [&_Composer]:m-6 ${
+      ref={chatRef}
+      className={`max-h-0 absolute top-22  z-9999 rounded-2xl overflow-auto right-10 max-w-0  transition-all  duration-500 ${
         showBot && `max-h-60  max-w-full ml-7 h-auto `
       }`}
     >
@@ -70,9 +75,12 @@ const ChatBotUi = ({ showBot }) => {
         placeholder="Ask me anything city related..."
         messages={messages}
         onSend={handleSend}
-        renderMessageContent={(msg) => (
-          <Bubble content={msg.content.text} />
-        )}
+        locale=""
+        renderMessageContent={(msg) => <Bubble content={msg.content.text}
+        // onFocus={()=> set}
+         />
+        
+      }
       />
     </div>
   );
