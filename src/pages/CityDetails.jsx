@@ -1,14 +1,14 @@
 import { BounceLoader } from "react-spinners";
 import { FaArrowLeft } from "react-icons/fa";
 import { useNavigate, useParams } from "react-router-dom";
-import { Button } from "../components/Button";
+import { Button } from "@/components/Button";
 import { useQueryString } from "../hooks/useQueryString";
 import { useState } from "react";
 import { BottomSheet } from "../components/BottomSheet";
 import { Form } from "../components/Form";
 import { useCities } from "../hooks/useCities";
 import { Message } from "../components/Message";
-import { CountryFlag } from "../components/CountryFlag";
+import { CountryFlag } from "@/components/CountryFlag";
 import { PhotoAttribution } from "../components/PhotoAttribution";
 
 import {
@@ -22,6 +22,8 @@ import {
 import { getCountryFlag } from "../utils/getFlag";
 import { useTanStackFetch } from "../hooks/useTanStackFetch";
 import { toast, Toaster } from "sonner";
+
+import { DropdownMenuDialog } from "@/components/DropdownMenuDialog";
 
 export const CityDetails = () => {
   const { id } = useParams();
@@ -77,7 +79,7 @@ export const CityDetails = () => {
   const { imgUrl } = visitedCities.find((city) => city.id === id) || {};
 
   //Check if a city is already visited
-  const isVisited = visitedCities.map(({ id }) => id).includes(id);
+  const isVisited = visitedCities.some((city) => id === city.id);
 
   const countryFlag = getCountryFlag(country_code);
 
@@ -114,6 +116,7 @@ export const CityDetails = () => {
             imageToUse={imgSrc || imgUrl}
             cityImage={cityImage}
             isLoading={isImgLoading}
+            isVisited={isVisited}
           >
             <PhotoAttribution
               PhotoGrapherName={photographer}
@@ -221,7 +224,8 @@ const CityDetailsContent = ({
           )}
         </div>
       </div>
-      <div className="[&>button]:rounded-full [&>button]:min-w-[100%] [&>button]:text-white [&>p]:text-center [&>p]:text-sm [&>p]:mt-2">
+      <p></p>
+      <div className="[&>button]:rounded-full [&>button]:min-w-[100%] [&>button]:text-white [&>p]:text-center [&>p]:text-sm [&>p]:mt-2 fixed w-full left-0 bottom-5 px-5 z-999">
         {/*  Show Save visit button only if the city is not visited and has an image*/}
         {!isVisited && imgSrc && (
           <Button onClick={() => setIsOpen(true)} disabled={!imgSrc}>
@@ -247,11 +251,12 @@ const CityDetailsContent = ({
   );
 };
 
-const CityDetailsHero = ({ imageToUse, children }) => {
+const CityDetailsHero = ({ imageToUse, children, isVisited }) => {
   const navigate = useNavigate();
+
   return (
     <div
-      className="h-[50%] relative [&_p]:text-white"
+      className="h-[50%] relative [&_p]:text-white "
       style={{
         background: `${
           imageToUse
@@ -260,12 +265,16 @@ const CityDetailsHero = ({ imageToUse, children }) => {
         }`,
       }}
     >
-      <Button
-        styles="p-3 cursor-pointer  rounded-full ml-3 absolute top-10 "
-        onClick={() => navigate(-1)}
-      >
-        <FaArrowLeft />
-      </Button>
+      <header className="p-3 pt-10 flex items-center justify-between">
+        <Button
+          styles="p-3  cursor-pointer rounded-full"
+          onClick={() => navigate(-1)}
+        >
+          <FaArrowLeft />
+        </Button>
+
+        {Boolean(isVisited) && <DropdownMenuDialog />}
+      </header>
 
       {!imageToUse && (
         <Message
