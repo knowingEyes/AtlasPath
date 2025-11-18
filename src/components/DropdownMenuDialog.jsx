@@ -49,11 +49,11 @@ export function DropdownMenuDialog() {
     <>
       <DropdownMenu>
         <DropdownMenuTrigger asChild>
-          <Button className="rounded-full bg-gradient-to-r from-[#121212] to-[#3c3c3c] h-[38px] w-[38px]">
+          <Button className="rounded-full bg-gradient-to-r from-[#121212] to-[#3c3c3c] h-[38px] w-[38px] cursor-pointer">
             <EllipsisVerticalIcon className="" />
           </Button>
         </DropdownMenuTrigger>
-        <DropdownMenuContent className="mr-3">
+        <DropdownMenuContent className="mr-3 min-[1024px]:mr-22">
           <DropdownMenuItem onSelect={() => setShowNewDialog(true)}>
             <PencilSquareIcon /> Edit note
           </DropdownMenuItem>
@@ -84,10 +84,10 @@ export function DropdownMenuDialog() {
           >
             <FieldGroup className="pb-3">
               <Field>
-                <FieldLabel htmlFor="filename">New note</FieldLabel>
+                <FieldLabel htmlFor="note">New note</FieldLabel>
                 <Input
-                  id="filename"
-                  name="filename"
+                  id="note"
+                  name="note"
                   placeholder="New note..."
                   value={newNote}
                   required

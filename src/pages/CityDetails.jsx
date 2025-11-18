@@ -111,7 +111,7 @@ export const CityDetails = () => {
   return (
     <>
       {!isLoading && !isImgLoading && !isAboutLoading && (
-        <section className="h-screen text-white relative">
+        <section className="h-screen text-white relative max-w-[1024px] mx-auto">
           <CityDetailsHero
             imageToUse={imgSrc || imgUrl}
             cityImage={cityImage}
@@ -224,7 +224,7 @@ const CityDetailsContent = ({
         </div>
       </div>
       <p></p>
-      <div className="[&>button]:rounded-full [&>button]:min-w-[100%] [&>button]:text-white [&>p]:text-center [&>p]:text-sm [&>p]:mt-2 fixed w-full left-0 bottom-5 px-5 z-999">
+      <div className="[&>button]:rounded-full [&>button]:w-full [&>button]:text-white [&>p]:text-center [&>p]:text-sm [&>p]:mt-2 fixed w-full left-[50%] translate-x-[-50%] bottom-5 px-5 z-999 max-w-[1024px] ">
         {/*  Show Save visit button only if the city is not visited and has an image*/}
         {!isVisited && imgSrc && (
           <Button onClick={() => setIsOpen(true)} disabled={!imgSrc}>
