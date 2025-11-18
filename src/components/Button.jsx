@@ -4,9 +4,11 @@ export const Button = ({
   styles,
   gradient = true,
   disabled = false,
+  type = "button",
 }) => {
   return (
     <button
+      type={type}
       disabled={disabled}
       onClick={onClick}
       className={`${

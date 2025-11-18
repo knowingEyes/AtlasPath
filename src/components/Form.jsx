@@ -11,7 +11,7 @@ export const Form = ({ setIsOpen, ...options }) => {
   const [dateVisited, setdateVisited] = useState(new Date());
   const { handleNewCity } = useCities();
   const { cityName, country, id, about, emoji, imgUrl } = options || {};
-  
+
   const newCity = {
     cityName,
     country,
@@ -24,11 +24,12 @@ export const Form = ({ setIsOpen, ...options }) => {
     imgUrl,
     about,
   };
+
   return (
     <form
       onSubmit={(e) => {
         e.preventDefault();
-        setIsOpen((p) => !p);
+        setIsOpen();
         handleNewCity(newCity);
       }}
     >
@@ -60,7 +61,7 @@ export const Form = ({ setIsOpen, ...options }) => {
         Leave a note
       </label>
       <textarea
-      minLength={30}
+        minLength={30}
         id="note"
         rows="4"
         className="block p-2.5 w-full text-[16px] text-gray-900 bg-gray-100 rounded-lg border border-gray-300
@@ -71,7 +72,10 @@ export const Form = ({ setIsOpen, ...options }) => {
         onChange={(e) => setNote(e.target.value)}
         required
       ></textarea>
-      <Button styles="px-5 rounded-md py-1 mt-4 text-white">Add</Button>
+      <div className="[&>button]:px-5 [&>button]:rounded-md [&>button]:mt-4 [&>button]:text-white [&>button]:py-1 flex align-middle gap-x-3">
+        <Button type="submit">Add</Button>
+        <Button onClick={setIsOpen}>Cancel</Button>
+      </div>
     </form>
   );
 };

@@ -111,7 +111,7 @@ export const CityDetails = () => {
   return (
     <>
       {!isLoading && !isImgLoading && !isAboutLoading && (
-        <section className="h-screen text-white relative max-w-[1024px] mx-auto">
+        <section className="h-screen text-white relative max-w-[1024px] mx-auto shadow-xl">
           <CityDetailsHero
             imageToUse={imgSrc || imgUrl}
             cityImage={cityImage}
@@ -140,7 +140,7 @@ export const CityDetails = () => {
             )}
             {isOpen && (
               <Form
-                setIsOpen={setIsOpen}
+                setIsOpen={() => setIsOpen((p) => !p)}
                 cityName={city}
                 emoji={countryFlag}
                 imgUrl={imgSrc}
