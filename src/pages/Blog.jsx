@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { sanityClient } from "../lib/sanityClient";
 import BlogPreviewItems from "../components/BlogPreviewItems";
 import BlogPreviewSkeleton from "../skeletons/BlogPreviewSkeleton";
+import { toast } from "sonner";
 
 export const Blog = () => {
   const [blogs, setBlogs] = useState([]);
@@ -25,10 +26,17 @@ export const Blog = () => {
       } catch (e) {
         setError(e);
       } finally {
-        setIsLoading(false);
+        setIsLoading(false); 
       }
     }
     fetchBlogs();
+  }, []);
+
+  useEffect(() => {
+    if (blogs)
+      toast.info(
+        "Blogs content are being worked on and will be available soon!"
+      );
   }, []);
 
   if (isLoading) return <BlogPreviewSkeleton blogs={blogs} />;

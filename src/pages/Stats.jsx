@@ -74,7 +74,7 @@ export const Stats = () => {
         />
   return (
     <section className="h-max p-4 flex flex-col  justify-center">
-          <h1 className="text-2xl text-center font-semibold m-3">
+          <h1 className="text-lg text-center font-semibold m-3">
             Most visited cities per country
           </h1>
           <Bar className="max-h-70"

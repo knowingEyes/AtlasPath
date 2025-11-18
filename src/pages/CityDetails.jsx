@@ -21,7 +21,7 @@ import {
 
 import { getCountryFlag } from "../utils/getFlag";
 import { useTanStackFetch } from "../hooks/useTanStackFetch";
-import { toast, Toaster } from "sonner";
+import { toast} from "sonner";
 
 import { DropdownMenuDialog } from "@/components/DropdownMenuDialog";
 
@@ -153,7 +153,7 @@ export const CityDetails = () => {
               />
             )}
           </BottomSheet>
-          <Toaster position="top-center" />
+  
         </section>
       )}
     </>

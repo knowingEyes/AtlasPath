@@ -10,7 +10,7 @@ const ChatBotUi = ({ showBot }) => {
   return (
     <div
       ref={chatRef}
-      className={`max-h-0 absolute top-22  z-9999 rounded-2xl overflow-auto right-10 max-w-0  transition-all  duration-500 ${
+      className={`max-h-0 absolute top-22  z-9999 rounded-2xl overflow-auto right-10 max-w-0  transition-all  duration-500  ${
         showBot && `max-h-60  max-w-full  ml-7 h-auto `
       }`}
     >
@@ -23,7 +23,6 @@ const ChatBotUi = ({ showBot }) => {
         renderMessageContent={(msg) => (
           <Bubble
             content={msg.content.text}
-            // onFocus={()=> set}
           />
         )}
       />

@@ -7,11 +7,12 @@ import ChatBotButton from "../chatbot/ChatBotButton";
 
 export const HomePage = () => {
   const [showBot, setShowBot] = useState(false);
+  const show = () => setShowBot(!showBot);
   return (
     <section className="p-5 h-100">
       <ChatBotUi showBot={showBot} />
       <AppHeader>
-        <ChatBotButton showBot={() => setShowBot(!showBot)} />
+        <ChatBotButton showBot={show} />
       </AppHeader>
       <SectionNavBar views={["Cities", "Countries"]} />
       <Outlet />

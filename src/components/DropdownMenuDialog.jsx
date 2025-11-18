@@ -49,8 +49,8 @@ export function DropdownMenuDialog() {
     <>
       <DropdownMenu>
         <DropdownMenuTrigger asChild>
-          <Button className="rounded-full">
-            <EllipsisVerticalIcon className="w-5" />
+          <Button className="rounded-full bg-gradient-to-r from-[#121212] to-[#3c3c3c] h-[38px] w-[38px]">
+            <EllipsisVerticalIcon className="" />
           </Button>
         </DropdownMenuTrigger>
         <DropdownMenuContent className="mr-3">
