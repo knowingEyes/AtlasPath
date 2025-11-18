@@ -21,7 +21,7 @@ import {
 
 import { getCountryFlag } from "../utils/getFlag";
 import { useTanStackFetch } from "../hooks/useTanStackFetch";
-import { toast} from "sonner";
+import { toast } from "sonner";
 
 import { DropdownMenuDialog } from "@/components/DropdownMenuDialog";
 
@@ -98,7 +98,7 @@ export const CityDetails = () => {
       </Message>
     );
 
-  if (!cityInfo && lat && lon)
+  if (!cityInfo && lat && lon && !error)
     return (
       <div className="h-screen">
         <Message
@@ -153,7 +153,6 @@ export const CityDetails = () => {
               />
             )}
           </BottomSheet>
-  
         </section>
       )}
     </>

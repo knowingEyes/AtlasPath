@@ -1,7 +1,6 @@
 import { useQuery } from "@tanstack/react-query";
 
 export const useTanStackFetch = (url, key, enabled = true, token = null) => {
-
   const { data, isLoading, error } = useQuery({
     queryKey: [key],
     gcTime: 0,
@@ -14,6 +13,7 @@ export const useTanStackFetch = (url, key, enabled = true, token = null) => {
       } else {
         endpoint = await fetch(url);
       }
+
       const data = await endpoint.json();
       if (!endpoint.ok) throw new Error(data.message || "Error fetching data");
       return data;

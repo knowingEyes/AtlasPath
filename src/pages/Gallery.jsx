@@ -29,8 +29,8 @@ export const Gallery = () => {
   if (isLoading) return <GallerySkelton />;
 
   return (
-    <section className="max-w-[1024px] mx-auto">
-      <ul className={`grid min-[1024px]:grid-cols-3 grid-cols-2 gap-3 pb-30`}>
+    <section className="">
+      <ul className={`grid min-[1024px]:grid-cols-3 grid-cols-2 gap-3 pb-30 max-w-[1024px] mx-auto`}>
         {galleryImages?.map((items, i) => (
           <GalleryItems
             key={i}

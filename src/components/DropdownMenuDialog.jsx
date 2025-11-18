@@ -31,7 +31,7 @@ import {
 
 import { Field, FieldGroup, FieldLabel } from "@/components/ui/field";
 import { Button } from "./ui/button";
-import { EllipsisVerticalIcon } from "@/assets/icons/icons";
+import { EllipsisVerticalIcon, PencilSquareIcon, TrashIcon } from "@/assets/icons/icons";
 import { Input } from "./ui/input";
 
 export function DropdownMenuDialog() {
@@ -55,14 +55,14 @@ export function DropdownMenuDialog() {
         </DropdownMenuTrigger>
         <DropdownMenuContent className="mr-3">
           <DropdownMenuItem onSelect={() => setShowNewDialog(true)}>
-            Edit note
+            <PencilSquareIcon /> Edit note
           </DropdownMenuItem>
           <DropdownMenuSeparator />
           <DropdownMenuItem
             onSelect={() => setShowAlertDialog(true)}
             className="text-red-400"
           >
-            Delete city
+           <TrashIcon className="text-red-400"/> Delete city
           </DropdownMenuItem>
         </DropdownMenuContent>
       </DropdownMenu>
