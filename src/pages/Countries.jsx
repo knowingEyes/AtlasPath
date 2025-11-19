@@ -34,7 +34,7 @@ export const Countries = () => {
     );
   return (
     <section>
-      <ul className="pb-25 max-w-[500px] mx-auto">
+      <ul className="pb-25 max-w-lg mx-auto">
         {countriesImages?.map(
           ({ img, photographer_url, photographer, flag }) => (
             <CountriesItems

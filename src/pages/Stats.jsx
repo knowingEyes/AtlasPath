@@ -73,7 +73,7 @@ export const Stats = () => {
           type="fullscreen"
         />
   return (
-    <section className="h-max p-4 flex flex-col  justify-center">
+    <section className="h-max p-4 flex flex-col max-w-[1024px] mx-auto">
           <h1 className="text-lg text-center font-semibold m-3">
             Most visited cities per country
           </h1>

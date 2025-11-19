@@ -13,7 +13,7 @@ export const Cities = () => {
     );
   return (
     <section>
-      <ul className="max-w-[500px] mx-auto pb-25">
+      <ul className="max-w-lg mx-auto pb-25">
         {visitedCities.map(
           ({ cityName, lat, lon, id, note, emoji, imgUrl, dateVisited }) => (
             <CitiesItems

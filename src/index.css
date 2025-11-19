@@ -7,15 +7,13 @@
 @custom-variant dark (&:is(.dark *));
 
 @theme {
+  --breakpoint-v4: 1024px;
   --font-Inter: 'Inter';
   --font-Poppins: "Poppins";
   --font-Vibes: "Great Vibes";
 
 }
-/* .Composer {
-  position: fixed;
-  width: 100%;
-} */
+
 body {
   @apply font-Inter relative overflow-auto ;
 }
