@@ -210,8 +210,9 @@ const CityDetailsContent = ({
         )}
       </div>
 
-      <div>
-        <h2 className=" mb-4">HIGHLIGHT</h2>
+      <div className=" mb-4">
+        <h2>HIGHLIGHT</h2>
+        <p className="text-xs text-gray-700">Coming soon</p>
       </div>
       <div className="mb-4">
         <h2 className="">NOTES</h2>

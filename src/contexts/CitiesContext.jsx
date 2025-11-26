@@ -1,5 +1,5 @@
 import { createContext, useEffect, useReducer } from "react";
-import { useParams } from "react-router-dom";
+
 
 const initialValue = { visitedCities: [] };
 const CitiesContext = createContext();
@@ -42,9 +42,7 @@ const CitiesProvider = ({ children }) => {
 
   useEffect(() => {
     const savedData =
-      JSON.parse(localStorage.getItem("visitedCities")) ||
-      visitedCities;
-      console.log(savedData)
+      JSON.parse(localStorage.getItem("visitedCities")) || visitedCities;
     dispatch({
       type: "GET_SAVED_CITIES",
       payload: savedData,
